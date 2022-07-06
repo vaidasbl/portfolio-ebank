@@ -1,0 +1,171 @@
+* {
+  font-family: "ModernSans";
+  font-weight: bolder;
+}
+
+.row {
+  width: 100%;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.navbar {
+  background-color: #ffffff;
+  color: #145796;
+  height: 100px;
+  box-shadow: rgb(0, 0, 0) 0px 25px 20px -20px;
+}
+
+.redborder {
+  border: 1px solid red;
+}
+
+.myBtn1 {
+  background-color: transparent;
+  border: rgb(0, 82, 189) 1px solid;
+  border-radius: 20px;
+  width: 100px;
+  height: 45px;
+  color: rgb(0, 82, 189);
+}
+
+.myBtn2 {
+  background-color: rgb(0, 82, 189);
+  border: rgb(0, 82, 189) 1px solid;
+  border-radius: 25px;
+  width: 100px;
+  height: 45px;
+  color: white;
+}
+
+.myBtn3 {
+  background-color: rgba(255, 255, 255, 0.7450980392);
+  border: none;
+  width: 100px;
+  height: 45px;
+  color: rgb(0, 82, 189);
+}
+
+.myBtn4 {
+  background-color: white;
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 25px;
+  width: 100px;
+  height: 40px;
+  color: rgb(0, 82, 189);
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  border: 1px solid rgba(15, 96, 163, 0.123);
+  color: rgb(0, 82, 189);
+  background-color: rgba(218, 218, 218, 0.3647058824);
+}
+
+.myBtn1:hover {
+  background-color: #e1f2ff;
+}
+
+.myBtn2:hover {
+  background-color: rgb(0, 88, 202);
+}
+
+.myBtn4:hover {
+  background-color: rgb(0, 82, 189);
+  color: white;
+  font-size: 19px;
+}
+
+.header-container {
+  height: 500px;
+  background-image: url("/public/bank.png");
+}
+
+.header-text {
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 15vh;
+  font-size: 30px;
+}
+
+.home-body {
+  background-color: rgb(255, 255, 255);
+  height: 400px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.body-title {
+  font-size: 30px;
+}
+
+.card-image {
+  width: 150px;
+  height: 150px;
+  margin-top: 15px;
+}
+
+.cardtitle {
+  height: 75px;
+}
+
+.footer-container {
+  background-color: rgb(31, 73, 107);
+  height: 200px;
+  color: white;
+}
+
+.footer-text {
+  text-align: center;
+  padding-top: 150px;
+}
+
+.login-container {
+  border: 1px solid rgba(5, 0, 53, 0.123);
+  border-radius: 10px;
+  display: flex;
+  margin: 0 auto;
+  width: 400px;
+  margin-top: 20vh;
+  height: 400px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+    rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.form-control {
+  border: none !important;
+  border-bottom: 2px solid !important;
+  -o-border-image: linear-gradient(to right, white, rgb(0, 82, 189), white) 5 !important;
+  border-image: linear-gradient(to right, white, rgb(0, 82, 189), white) 5 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.form-control:focus {
+  -o-border-image: linear-gradient(to right, white, rgb(0, 162, 255), white) 5 !important;
+  border-image: linear-gradient(to right, white, rgb(0, 162, 255), white) 5 !important;
+}
+
+.title {
+  font-size: 20px;
+}
+
+.align-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.align-end {
+  display: flex;
+  justify-content: flex-end;
+} /*# sourceMappingURL=App.css.map */
