@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomeContainer from "./components/01 Home/HomeContainer";
 import LoginContainer from "./components/02 Login/LoginContainer";
+import DashboardContainer from "./components/03 Dashboard/DashboardContainer";
 
 import "./styles/App.css";
 
@@ -16,7 +17,9 @@ function App() {
   if (user.authenticated) {
     return (
       <Router>
-        {user.username},{user.authenticated ? "true" : "false"}
+        <Routes>
+          <Route path="/" element={<DashboardContainer />} />
+        </Routes>
       </Router>
     );
   } else {

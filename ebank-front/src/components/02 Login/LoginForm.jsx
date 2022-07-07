@@ -44,7 +44,7 @@ const LoginForm = () => {
         <div className="mt-4">
           <input
             name="username"
-            className="form-control"
+            className="my-form"
             type="text"
             id="txtLoginUsername"
             placeholder="Username"
@@ -55,7 +55,7 @@ const LoginForm = () => {
         <div className="">
           <input
             name="password"
-            className="form-control"
+            className="my-form"
             type="text"
             id="txtLoginPassword"
             placeholder="Password"
