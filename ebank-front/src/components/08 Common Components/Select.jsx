@@ -31,7 +31,9 @@ export default function DialogSelect() {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Change currency</Button>
+      <button className="myBtn5" onClick={handleClickOpen}>
+        Change currency
+      </button>
 
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogContent>

@@ -1,13 +1,14 @@
 import React from "react";
-import BalanceSection from "./BalanceSection";
+
 import DashboardNavbar from "./DashboardNavbar";
+import Summary from "./Summary";
 
 const DashboardContainer = () => {
   return (
-    <div className="">
+    <div>
       <DashboardNavbar />
 
-      <BalanceSection />
+      <Summary />
     </div>
   );
 };
