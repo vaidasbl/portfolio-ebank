@@ -10,10 +10,6 @@ import "./styles/App.css";
 function App() {
   const user = useSelector((state) => state.user.value);
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
   if (user.authenticated) {
     return (
       <Router>

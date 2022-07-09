@@ -72,6 +72,18 @@
   transition: color 0.5s ease;
 }
 
+.myBtn6 {
+  background-color: white;
+  border: none;
+  font-size: 18px;
+  width: 60px;
+  height: 35px;
+}
+
+.myBtn6:hover {
+  color: rgb(0, 82, 189);
+}
+
 button:disabled {
   cursor: not-allowed;
   pointer-events: none;

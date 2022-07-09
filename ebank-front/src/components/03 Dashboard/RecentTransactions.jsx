@@ -33,7 +33,7 @@ const RecentTransactions = () => {
     <div className="recenttransactions ">
       <div className="subtitle mb-2">Recent transactions</div>
       {transactions.map((t) => (
-        <div className="row">
+        <div key={t.who} className="row">
           <div className="col-6">
             {t.in ? "+" : "-"}
             {t.amount}

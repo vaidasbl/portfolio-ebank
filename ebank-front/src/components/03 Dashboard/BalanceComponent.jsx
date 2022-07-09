@@ -1,16 +1,21 @@
-import React from "react";
-import Select from "../08 Common Components/Select";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import CurrencySelect from "../08 Common Components/CurrencySelect";
 
-const BalanceComponent = () => {
+const BalanceComponent = ({ wallet, setWallet }) => {
   return (
     <div className="container">
       <div className="row balancecontainer mt-4">
-        <div className="col-6 subtitle">Balance:</div>
+        <div className="col-6 subtitle">Balance: </div>
         <div className="col-6">
-          <div className="currency">$1485.35</div>
+          <div className="currency">
+            {wallet.amount} {wallet.currency}
+          </div>
 
           <div>
-            <Select />
+            <CurrencySelect wallet={wallet} setWallet={setWallet} />
           </div>
         </div>
       </div>
