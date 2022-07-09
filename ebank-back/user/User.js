@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     currency: String,
     amount: Number,
   },
+  contacts: [],
 });
 
 const User = mongoose.model("User", UserSchema);

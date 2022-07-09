@@ -52,7 +52,7 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="">
+        <div className="mt-4">
           <input
             name="password"
             className="my-form"

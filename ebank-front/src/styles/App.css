@@ -84,6 +84,27 @@
   color: rgb(0, 82, 189);
 }
 
+.myBtn7 {
+  background-color: white;
+  border: none;
+  font-size: 16px;
+
+  height: 35px;
+}
+
+.myBtn7:hover {
+  color: rgb(0, 82, 189);
+}
+
+.arrow {
+  transform: rotate(0deg);
+  transition: transform 1s ease;
+}
+.arrow-open {
+  transform: rotate(-90deg);
+  transition: transform 1s ease;
+}
+
 button:disabled {
   cursor: not-allowed;
   pointer-events: none;
@@ -186,7 +207,7 @@ button:disabled {
   border-bottom: 2px solid;
   border-image: linear-gradient(to right, white, rgb(0, 82, 189), white) 5;
   box-shadow: none;
-  margin-top: 25px;
+
   text-align: center;
 }
 
@@ -263,7 +284,7 @@ button:disabled {
 
 .logoutbtn:hover {
   cursor: pointer;
-  color: blue;
+  color: rgb(0, 82, 189);
 }
 
 .balancecontainer {
@@ -325,5 +346,64 @@ button:disabled {
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 17px;
+}
+
+.myBtn8 {
+  background-color: white;
+  position: relative;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  z-index: 2;
+}
+
+.contactsdropdown-open {
+  position: absolute;
+  transform: translateY(1px);
+  width: 90px;
+
+  background-color: rgb(252, 252, 252);
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 5px;
+  z-index: 3;
+  transition: transform 0.5s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.contactsdropdown-closed {
+  user-select: none;
+  transform: translateY(10px);
+  opacity: 0;
+  position: absolute;
+  width: 90px;
+  background-color: rgb(245, 245, 245);
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 5px;
+  z-index: 1;
+  transition: transform 0.5s ease-in-out;
+}
+
+.contactitem {
+  text-align: center;
+  justify-content: center;
+}
+.contactitem:hover {
+  color: rgb(0, 82, 189);
+  background-color: rgb(235, 235, 235);
+
+  cursor: pointer;
+}
+
+.currencyspan {
+  position: absolute;
+
+  opacity: 50%;
+}
+
+.currencyspan:hover {
+  user-select: none;
+  cursor: default;
 }

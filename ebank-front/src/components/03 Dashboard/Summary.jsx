@@ -23,7 +23,6 @@ const Summary = () => {
 
   useEffect(() => {
     getWallet();
-    console.log(wallet);
   }, []);
 
   return (

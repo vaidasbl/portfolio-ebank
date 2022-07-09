@@ -145,4 +145,63 @@ router.get("/getwallet/:username", async (req, res) => {
   }
 });
 
+//Add to contacts
+router.put("/addtocontacts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    const userToAdd = await User.findOne({ username: req.body.usernameToAdd });
+
+    if (user && userToAdd) {
+      user.contacts.push({ username: userToAdd.username });
+      await user.save();
+      res.send(user.contacts);
+    } else if (!userToAdd) {
+      res.status(400).send("not found");
+    } else {
+      res.send("error");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Remove from contacts
+router.put("/removefromcontacts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    const userToRemove = await User.findOne({
+      username: req.body.userToRemove,
+    });
+
+    if (user && userToRemove) {
+      const index = await user.contacts.findIndex(
+        (c) => c.username == userToRemove.username
+      );
+      await user.contacts.splice(index, 1);
+      await user.save();
+      res.send(user.contacts);
+    } else if (!userToRemove) {
+      res.status(400).send("not found");
+    } else {
+      res.send("error");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Get contacts
+router.get("/:username/contacts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      res.send(user.contacts);
+    } else {
+      res.send("no user???");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
 module.exports = router;
