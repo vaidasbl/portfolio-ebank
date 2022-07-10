@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -7,8 +7,16 @@ import { useEffect } from "react";
 const ContactsSelect = ({ setContact }) => {
   const user = useSelector((state) => state.user.value);
   const [contacts, setContacts] = useState([]);
-
   const [open, setOpen] = useState(false);
+
+  const ref = useRef(null);
+
+  const closeOpenMenus = (e) => {
+    if (ref.current && open && !ref.current.contains(e.target)) {
+      setOpen(false);
+    }
+  };
+  document.addEventListener("mouseup", closeOpenMenus);
 
   const getContacts = async () => {
     try {
@@ -33,18 +41,13 @@ const ContactsSelect = ({ setContact }) => {
 
   const handleSetContact = (c) => {
     setContact(c);
-    console.log(c);
     setOpen(false);
   };
 
   return (
     <div className="row">
       <div className="col-6">
-        <button
-          type="button"
-          onClick={(e) => handleOpen(e)}
-          className="myBtn8 "
-        >
+        <button type="button" onClick={handleOpen} className="myBtn8 ">
           contacts
         </button>
       </div>
@@ -54,7 +57,7 @@ const ContactsSelect = ({ setContact }) => {
         </div>
       </div>
 
-      <div>
+      <div ref={ref}>
         <div
           className={
             open ? "contactsdropdown-open " : "contactsdropdown-closed"

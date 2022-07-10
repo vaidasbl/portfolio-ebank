@@ -11,9 +11,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateWallet } from "../../Reducers/user";
 
-const CurrencySelect = ({ wallet, setWallet }) => {
+const CurrencySelect = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
   const [open, setOpen] = useState(false);
@@ -32,7 +34,7 @@ const CurrencySelect = ({ wallet, setWallet }) => {
           request
         );
 
-        await setWallet(result.data);
+        dispatch(updateWallet({ wallet: result.data }));
 
         setOpen(false);
       } catch (err) {

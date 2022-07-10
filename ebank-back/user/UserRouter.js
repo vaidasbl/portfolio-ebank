@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { User } = require("./User");
+const { Transactions } = require("../transactions/Transactions");
 
 const router = express.Router();
 
@@ -35,16 +36,21 @@ const exchange = (amount, from, to) => {
 
 //Create new user
 router.post("/new", async (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-    wallet: {
-      currency: "USD",
-      amount: 0,
-    },
-  });
-
   try {
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password,
+      wallet: {
+        currency: "USD",
+        amount: 0,
+      },
+      transactionsId: null,
+    });
+
+    const transactions = new Transactions({
+      userId: user._id,
+    });
+
     if (await User.findOne({ username: user.username })) {
       res.status(400).send("User with such username already exists");
       return;
@@ -54,7 +60,8 @@ router.post("/new", async (req, res) => {
       res.status(400).send("Username or password cant be empty");
       return;
     }
-
+    await transactions.save();
+    user.transactionsId = transactions._id;
     await user.save();
     res.send(user);
   } catch (err) {
@@ -107,6 +114,69 @@ router.put("/addtowallet", async (req, res) => {
   }
 });
 
+//Send money
+router.put("/send", async (req, res) => {
+  try {
+    const sender = await User.findOne({ username: req.body.sender });
+    const senderTransactions = await Transactions.findOne({
+      userId: sender._id,
+    });
+    const recipient = await User.findOne({ username: req.body.recipient });
+    const recipientTransactions = await Transactions.findOne({
+      userId: recipient._id,
+    });
+    if (!recipient) {
+      res
+        .status(400)
+        .send("Recipient with name '" + req.body.recipient + "' was not found");
+    } else if (
+      exchange(req.body.amount, req.body.currency, sender.wallet.currency) >
+      sender.wallet.amount
+    ) {
+      res.status(400).send("Not enough money in the account");
+    } else {
+      const amountReceived = exchange(
+        req.body.amount,
+        req.body.currency,
+        recipient.wallet.currency
+      );
+      recipient.wallet.amount += amountReceived;
+
+      const amountSent = exchange(
+        req.body.amount,
+        req.body.currency,
+        sender.wallet.currency
+      );
+      sender.wallet.amount -= amountSent;
+
+      recipientTransactions.transactions.push({
+        amount: amountReceived,
+        currency: recipient.wallet.currency,
+        income: true,
+        who: sender.username,
+        date: new Date().toLocaleString("lt"),
+      });
+      senderTransactions.transactions.push({
+        amount: amountSent,
+        currency: sender.wallet.currency,
+        income: false,
+        who: recipient.username,
+        date: new Date().toLocaleString("lt"),
+      });
+
+      await sender.save();
+      await recipient.save();
+      await senderTransactions.save();
+      await recipientTransactions.save();
+      res.send({
+        message: `Succesfully sent ${req.body.amount} ${req.body.currency} to ${req.body.recipient}`,
+      });
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
 //Change currency
 router.put("/changecurrency", async (req, res) => {
   try {
@@ -136,7 +206,7 @@ router.get("/getwallet/:username", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
 
     if (user) {
-      res.send({ amount: user.wallet.amount, currency: user.wallet.currency });
+      res.send(user.wallet);
     } else {
       res.send("user was not found");
     }
@@ -196,6 +266,61 @@ router.get("/:username/contacts", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     if (user) {
       res.send(user.contacts);
+    } else {
+      res.send("no user???");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Get first five transactions
+router.get("/:username/recenttransactions", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      const transactions = await Transactions.findOne({ userId: user._id });
+
+      res.send(transactions.transactions.reverse().slice(0, 5));
+    } else {
+      res.send("no user???");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Get full transactions
+router.get("/:username/alltransactions", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      const transactions = await Transactions.findOne({ userId: user._id });
+
+      res.send(transactions.transactions.reverse());
+    } else {
+      res.send("no user???");
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Get transactions page
+router.get("/:username/transactionspage=:page/size=:size", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (user) {
+      const transactions = await Transactions.findOne({ userId: user._id });
+
+      page = transactions.transactions;
+      const pageNum = req.params.page;
+      const pageSize = req.params.size;
+
+      page = page
+        .slice(pageNum * pageSize - pageSize, pageNum * pageSize)
+        .reverse();
+      res.send(page);
     } else {
       res.send("no user???");
     }

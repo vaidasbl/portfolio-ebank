@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     amount: Number,
   },
   contacts: [],
+  transactionsId: { type: mongoose.Schema.Types.ObjectId, ref: "Transactions" },
 });
 
 const User = mongoose.model("User", UserSchema);

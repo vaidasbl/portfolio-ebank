@@ -18,7 +18,12 @@ const LoginForm = () => {
         user
       );
       if (result.data.success) {
-        dispatch(login({ username: result.data.user.username }));
+        dispatch(
+          login({
+            username: result.data.user.username,
+            wallet: result.data.user.wallet,
+          })
+        );
         navigate("/");
       } else {
         alert("Login denied");

@@ -365,7 +365,7 @@ button:disabled {
 
   background-color: rgb(252, 252, 252);
   border: 1px solid rgb(0, 82, 189);
-  border-radius: 5px;
+  border-radius: 15px;
   z-index: 3;
   transition: transform 0.5s ease-in-out;
   justify-content: center;
@@ -381,7 +381,7 @@ button:disabled {
   width: 90px;
   background-color: rgb(245, 245, 245);
   border: 1px solid rgb(0, 82, 189);
-  border-radius: 5px;
+  border-radius: 15px;
   z-index: 1;
   transition: transform 0.5s ease-in-out;
 }
@@ -392,7 +392,6 @@ button:disabled {
 }
 .contactitem:hover {
   color: rgb(0, 82, 189);
-  background-color: rgb(235, 235, 235);
 
   cursor: pointer;
 }
@@ -406,4 +405,43 @@ button:disabled {
 .currencyspan:hover {
   user-select: none;
   cursor: default;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mt-250 {
+  margin-top: 250px;
+}
+
+.myBtn9 {
+  background-color: white;
+  border: rgb(0, 82, 189) 1px solid;
+  border-radius: 20px;
+  width: 100px;
+  height: 40px;
+  color: rgb(0, 82, 189);
+  font-size: 18px;
+}
+
+.buttonsrowx {
+  position: absolute;
+  bottom: 100px;
+  margin-top: 100px;
+}
+
+.underlinebalance {
+  user-select: none;
+  opacity: 50%;
+}
+
+.income-true {
+  color: green;
+  text-align: right;
+}
+
+.income-false {
+  color: red;
+  text-align: right;
 }

@@ -7,30 +7,12 @@ import Quickmenu from "./Quickmenu";
 import RecentTransactions from "./RecentTransactions";
 
 const Summary = () => {
-  const user = useSelector((state) => state.user.value);
-  const [wallet, setWallet] = useState({});
-
-  const getWallet = async () => {
-    try {
-      const result = await axios.get(
-        `http://localhost:3002/api/bank/users/getwallet/${user.username}`
-      );
-      setWallet(result.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getWallet();
-  }, []);
-
   return (
     <div className="dashboard-container">
       <div className="titlecontainer container">
         <div className="row summarytitle">Account summary</div>
       </div>
-      <BalanceComponent wallet={wallet} setWallet={setWallet} />
+      <BalanceComponent />
       <div className="container">
         <RecentTransactions />
         <Quickmenu />
