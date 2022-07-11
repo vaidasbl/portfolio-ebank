@@ -1,35 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Pagination from "../08 Common Components/Pagination";
 
 const TransactionHistory = () => {
   const user = useSelector((state) => state.user.value);
   const [transactions, setTransactions] = useState([]);
+  const [transactionsSize, setTransactionsSize] = useState(0);
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
 
-  const pageSettings = {
-    pageNum: 2,
-    pageSize: 3,
-  };
+  const numOfPages = Math.ceil(transactionsSize / pageSize);
+  console.log(numOfPages);
 
   const getTransactionsPage = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${
-          user.username
-        }/transactionspage=${1}/size=${20}`
+        `http://localhost:3002/api/bank/users/${user.username}/transactionspage=${page}/size=${pageSize}`
       );
-      setTransactions(result.data);
-    } catch (err) {
-      alert(err);
-    }
-  };
 
-  const getTransactions = async () => {
-    try {
-      const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user.username}/alltransactions`
-      );
-      setTransactions(result.data);
+      setTransactions(result.data.page);
+      setTransactionsSize(result.data.allTransactions);
     } catch (err) {
       alert(err);
     }
@@ -37,13 +28,13 @@ const TransactionHistory = () => {
 
   useEffect(() => {
     getTransactionsPage();
-  }, []);
+  }, [page]);
   return (
     <div className="dashboard-container">
       <div className="titlecontainer container">
         <div className="row summarytitle">Transaction history</div>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 transactionslist">
         {transactions.map((t) => (
           <div key={t.date} className="row">
             <div
@@ -55,6 +46,9 @@ const TransactionHistory = () => {
             <div className="col-6 ">{t.date}</div>
           </div>
         ))}
+      </div>
+      <div className="pagination-bottom">
+        <Pagination setPage={setPage} page={page} numOfPages={numOfPages} />
       </div>
     </div>
   );

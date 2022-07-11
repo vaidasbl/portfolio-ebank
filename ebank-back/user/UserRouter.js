@@ -312,15 +312,16 @@ router.get("/:username/transactionspage=:page/size=:size", async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     if (user) {
       const transactions = await Transactions.findOne({ userId: user._id });
-
+      const allTransactions = transactions.transactions.length;
       page = transactions.transactions;
       const pageNum = req.params.page;
       const pageSize = req.params.size;
 
       page = page
-        .slice(pageNum * pageSize - pageSize, pageNum * pageSize)
-        .reverse();
-      res.send(page);
+        .reverse()
+        .slice(pageNum * pageSize - pageSize, pageNum * pageSize);
+
+      res.send({ page: page, allTransactions: allTransactions });
     } else {
       res.send("no user???");
     }

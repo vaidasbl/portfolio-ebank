@@ -13,7 +13,6 @@ const RecentTransactions = () => {
       );
 
       setTransactions(result.data);
-      console.log(result.data);
     } catch (err) {
       alert(err);
     }

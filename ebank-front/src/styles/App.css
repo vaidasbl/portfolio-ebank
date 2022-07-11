@@ -445,3 +445,20 @@ button:disabled {
   color: red;
   text-align: right;
 }
+
+.paginationPageInputBox {
+  width: 40px;
+  margin-right: -10px;
+}
+
+.page-link:focus {
+  box-shadow: none !important;
+}
+
+.pagination-bottom {
+  margin-top: 10px;
+}
+
+.transactionslist {
+  height: 350px;
+}
