@@ -1,52 +1,39 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { login } from "../../Reducers/user";
 
-const LoginForm = () => {
-  const dispatch = useDispatch();
+const RegisterForm = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ username: "", password: "" });
-  const empty = Object.values(user).some((v) => v === "" || v === undefined);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post(
-        "http://localhost:3002/api/bank/users/login",
-        user
-      );
-      if (result.data.success) {
-        console.log(result.data.user);
-        dispatch(
-          login({
-            userid: result.data.user._id,
-            username: result.data.user.username,
-            email: result.data.user.email,
-            wallet: result.data.user.wallet,
-          })
-        );
-        navigate("/");
-      } else {
-        alert("Login denied");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  const [info, setInfo] = useState({
+    username: "",
+    password: "",
+    passwordRepeat: "",
+  });
+  const empty = Object.values(info).some((v) => v === "" || v === undefined);
   const handleChange = (e) => {
-    setUser((prevState) => {
+    setInfo((prevState) => {
       return {
         ...prevState,
         [e.target.name]: e.target.value,
       };
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:3002/api/bank/users/new", info);
+
+      alert("Succesfully created an account");
+      navigate("/");
+    } catch (err) {
+      alert(err.response.data);
+    }
+  };
+
   return (
-    <div>
-      <h6 className="title">Login</h6>
+    <div className="titlecontainer container">
+      <div className="row summarytitle">Register</div>
 
       <form onSubmit={handleSubmit}>
         <div className="mt-4">
@@ -70,6 +57,18 @@ const LoginForm = () => {
             onChange={handleChange}
           />
         </div>
+
+        <div className="mt-4">
+          <input
+            name="passwordRepeat"
+            className="my-form"
+            type="text"
+            id="txtLoginPasswordRepeat"
+            placeholder="Repeat password"
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="row mt-4">
           <div className="col-6">
             <button
@@ -91,4 +90,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

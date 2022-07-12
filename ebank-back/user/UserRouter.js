@@ -40,6 +40,7 @@ router.post("/new", async (req, res) => {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
+      email: "",
       wallet: {
         currency: "USD",
         amount: 0,
@@ -51,19 +52,21 @@ router.post("/new", async (req, res) => {
       userId: user._id,
     });
 
-    if (await User.findOne({ username: user.username })) {
+    if (req.body.password !== req.body.passwordRepeat) {
+      res.status(400).send("Passwords must match");
+      return;
+    } else if (await User.findOne({ username: user.username })) {
       res.status(400).send("User with such username already exists");
       return;
-    }
-
-    if (!req.body.password || !req.body.username) {
+    } else if (!req.body.password || !req.body.username) {
       res.status(400).send("Username or password cant be empty");
       return;
+    } else {
+      await transactions.save();
+      user.transactionsId = transactions._id;
+      await user.save();
+      res.send(user);
     }
-    await transactions.save();
-    user.transactionsId = transactions._id;
-    await user.save();
-    res.send(user);
   } catch (err) {
     res.send(err.message);
   }
@@ -90,6 +93,44 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.send(err);
   }
+});
+
+//Update user info
+// router.put("/updateinfo", async (req, res) => {
+//   try {
+//     const user = await User.findOne({ username: req.body.username });
+//     const existsWithUsername = await User.findOne({
+//       username: req.body.newUsername,
+//     });
+//     const existsWithEmail = await User.findOne({ email: req.body.email });
+
+//     if (existsWithUsername && req.body.newUsername !== user.username) {
+//       res.status(400).send("User with this username is already registered");
+//     } else if (existsWithEmail && req.body.email !== user.email) {
+//       res.status(400).send("User with this email is already registered");
+//     } else if (
+//       req.body.newUsername === "" ||
+//       req.body.newUsername === undefined
+//     ) {
+//       res.status(400).send("Username cannot be empty");
+//     } else {
+//       user.username = req.body.newUsername;
+//       user.email = req.body.email;
+
+//       await user.save();
+//       res.send(user);
+//     }
+//   } catch (err) {
+//     res.send(err.message);
+//   }
+// });
+
+router.put("/updateinfo", async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  const id = user._id;
+
+  console.log(user);
+  await user.save(), res.send(user);
 });
 
 //Add money to wallet

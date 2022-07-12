@@ -26,7 +26,12 @@ const DashboardNavbar = () => {
             Transaction history
           </div>
           <div className="col-sm-3 navoption">New payment</div>
-          <div className="col-sm-3 navoption">My account</div>
+          <div
+            className="col-sm-3 navoption"
+            onClick={() => navigate("/accountpanel")}
+          >
+            My account
+          </div>
         </div>
       </div>
       <div onClick={handleLogout} className="me-4 logoutbtn">
