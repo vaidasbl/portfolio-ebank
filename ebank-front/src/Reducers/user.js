@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: {
-    userid: "",
+    _id: "",
     username: "",
     email: "",
     wallet: { amount: 0, currency: "USD" },
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
   reducers: {
     login(state, req) {
       state.value = {
-        userid: req.payload._id,
+        _id: req.payload._id,
         username: req.payload.username,
         email: req.payload.email,
         wallet: req.payload.wallet,
@@ -34,6 +34,7 @@ export const userSlice = createSlice({
 
     updateInfo(state, req) {
       state.value.username = req.payload.username;
+      state.value.email = req.payload.email;
     },
   },
 });

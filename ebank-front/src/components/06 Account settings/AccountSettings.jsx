@@ -1,23 +1,23 @@
 import axios from "axios";
-
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { updateInfo } from "../../Reducers/user";
 
 const AccountSettings = () => {
   const user = useSelector((state) => state.user.value);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
   const [newInfo, setNewInfo] = useState({
-    username: user.username,
-    newUsername: "123",
-    email: "aaa",
+    userid: user._id,
+    newUsername: user.username,
+    newEmail: user.email,
+    password: "",
+    passwordRepeat: "",
   });
 
-  console.log(user._id);
   const handleChange = (e) => {
     setNewInfo((prevState) => {
       return {
@@ -31,26 +31,19 @@ const AccountSettings = () => {
     try {
       const result = await axios.put(
         "http://localhost:3002/api/bank/users/updateinfo",
-        {
-          username: "1",
-          newUsername: "2",
-        }
+        newInfo
       );
-
-      dispatch(updateInfo({ username: result.data.username }));
-      console.log(result);
-      alert("Successfully changed info");
+      console.log(result.data);
+      dispatch(
+        updateInfo({ username: result.data.username, email: result.data.email })
+      );
     } catch (err) {
       alert(err);
     }
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
   return (
     <div className="dashboard-container">
-      {user.username}
       <div className="titlecontainer container">
         <div className="row summarytitle">Account settings</div>
 
@@ -60,46 +53,76 @@ const AccountSettings = () => {
               name="newUsername"
               className="my-form"
               type="text"
-              placeholder={user.username}
               value={newInfo.newUsername}
               onChange={handleChange}
             />
           </div>
+          <div className="underlinetext">username</div>
 
           <div className="mt-4">
             <input
-              name="email"
+              name="newEmail"
               className="my-form"
               type="text"
-              placeholder={newInfo.email}
+              value={newInfo.newEmail}
               onChange={handleChange}
             />
           </div>
+          <div className="underlinetext">email</div>
 
-          <div className=" mt-4">
-            <button type="button" onClick={handleSave} className="myBtn4">
-              Save
+          <div
+            className="mt-4 setisopenbutton"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <button type="button" className="myBtn10">
+              Change password
             </button>
           </div>
+          <div className="passwordbox redborder">
+            {isOpen && (
+              <div>
+                <div className="mt-4">
+                  <input
+                    name="password"
+                    className="my-form"
+                    type="text"
+                    id="txtLoginPassword"
+                    placeholder="Password"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="underlinetext">password</div>
 
-          <div className="mt-4">
-            <input
-              name="password"
-              className="my-form"
-              type="text"
-              id="txtLoginPassword"
-              placeholder="Password"
-            />
+                <div className="mt-4">
+                  <input
+                    name="passwordRepeat"
+                    className="my-form"
+                    type="text"
+                    id="txtLoginPasswordRepeat"
+                    placeholder="Repeat password"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="underlinetext">repeat password</div>
+              </div>
+            )}
           </div>
 
-          <div className="mt-4">
-            <input
-              name="passwordRepeat"
-              className="my-form"
-              type="text"
-              id="txtLoginPasswordRepeat"
-              placeholder="Repeat password"
-            />
+          <div className="row buttonsrow">
+            <div className="col-6">
+              <button
+                type="button"
+                className="myBtn4"
+                onClick={() => navigate(-1)}
+              >
+                Go back
+              </button>
+            </div>
+            <div className="col-6">
+              <button type="button" className="myBtn4" onClick={handleSave}>
+                Save
+              </button>
+            </div>
           </div>
         </form>
       </div>

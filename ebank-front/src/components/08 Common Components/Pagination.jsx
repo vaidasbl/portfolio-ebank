@@ -141,7 +141,7 @@ const Pagination = ({ setPage, page, numOfPages }) => {
         </div>
       </div>
     );
-  } else {
+  } else if (numOfPages <= 5 && numOfPages > 1) {
     return (
       <div>
         <div className="d-flex justify-content-center">
@@ -205,6 +205,8 @@ const Pagination = ({ setPage, page, numOfPages }) => {
         </div>
       </div>
     );
+  } else {
+    <></>;
   }
 };
 

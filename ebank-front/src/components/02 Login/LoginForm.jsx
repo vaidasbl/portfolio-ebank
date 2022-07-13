@@ -18,10 +18,9 @@ const LoginForm = () => {
         user
       );
       if (result.data.success) {
-        console.log(result.data.user);
         dispatch(
           login({
-            userid: result.data.user._id,
+            _id: result.data.user._id,
             username: result.data.user.username,
             email: result.data.user.email,
             wallet: result.data.user.wallet,

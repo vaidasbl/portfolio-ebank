@@ -95,42 +95,40 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//Update user info
-// router.put("/updateinfo", async (req, res) => {
-//   try {
-//     const user = await User.findOne({ username: req.body.username });
-//     const existsWithUsername = await User.findOne({
-//       username: req.body.newUsername,
-//     });
-//     const existsWithEmail = await User.findOne({ email: req.body.email });
-
-//     if (existsWithUsername && req.body.newUsername !== user.username) {
-//       res.status(400).send("User with this username is already registered");
-//     } else if (existsWithEmail && req.body.email !== user.email) {
-//       res.status(400).send("User with this email is already registered");
-//     } else if (
-//       req.body.newUsername === "" ||
-//       req.body.newUsername === undefined
-//     ) {
-//       res.status(400).send("Username cannot be empty");
-//     } else {
-//       user.username = req.body.newUsername;
-//       user.email = req.body.email;
-
-//       await user.save();
-//       res.send(user);
-//     }
-//   } catch (err) {
-//     res.send(err.message);
-//   }
-// });
-
+//Update info
 router.put("/updateinfo", async (req, res) => {
-  const user = await User.findOne({ username: req.body.username });
-  const id = user._id;
+  const passwordIfEmpty = (user) => {
+    if (req.body.password === "" || req.body.passwordRepeat === "") {
+      return user.password;
+    } else {
+      return req.body.password;
+    }
+  };
+  try {
+    const user = await User.findById(req.body.userid);
 
-  console.log(user);
-  await user.save(), res.send(user);
+    const existsByUsername = await User.findOne({
+      username: req.body.newUsername,
+    });
+    const existsByEmail = await User.findOne({ email: req.body.newEmail });
+
+    if (existsByUsername && user.username != req.body.newUsername) {
+      res.status(400).send("User with such username already exists");
+    } else if (existsByEmail && user.email != req.body.newEmail) {
+      res.status(400).send("User with such email already exists");
+    } else if (req.body.password !== req.body.passwordRepeat) {
+      res.status(400).send("Passwords must match");
+    } else {
+      user.username = req.body.newUsername;
+      user.email = req.body.newEmail;
+      user.password = passwordIfEmpty(user);
+
+      await user.save();
+      res.send(user);
+    }
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 //Add money to wallet

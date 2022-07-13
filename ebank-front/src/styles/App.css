@@ -436,6 +436,12 @@ button:disabled {
   opacity: 50%;
 }
 
+.underlinetext {
+  user-select: none;
+  opacity: 75%;
+  font-size: 13px;
+}
+
 .income-true {
   color: green;
   text-align: right;
@@ -461,4 +467,29 @@ button:disabled {
 
 .transactionslist {
   height: 350px;
+}
+
+.passwordbox {
+  border: 1px solid white;
+  height: 175px;
+}
+
+.myBtn10 {
+  background-color: white;
+  border: none;
+  font-size: 16px;
+
+  height: 35px;
+}
+
+.myBtn10:before {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid black;
+
+  margin: auto;
+}
+
+.myBtn10:hover {
+  color: rgb(0, 82, 189);
 }
