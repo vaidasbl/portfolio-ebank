@@ -1,14 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import Pagination from "../08 Common Components/Pagination";
 
 const TransactionHistory = () => {
   const user = useSelector((state) => state.user.value);
+  const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
   const [transactionsSize, setTransactionsSize] = useState(0);
   const [page, setPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 10;
 
   const numOfPages = Math.ceil(transactionsSize / pageSize);
   console.log(numOfPages);
@@ -47,8 +49,13 @@ const TransactionHistory = () => {
           </div>
         ))}
       </div>
-      <div className="pagination-bottom">
+      <div className="pagination-container">
         <Pagination setPage={setPage} page={page} numOfPages={numOfPages} />
+      </div>
+      <div className="col-6 lefter">
+        <button type="button" className="myBtn4 " onClick={() => navigate(-1)}>
+          Go back
+        </button>
       </div>
     </div>
   );

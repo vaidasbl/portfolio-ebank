@@ -9,7 +9,12 @@ const UserSchema = new Schema({
     currency: String,
     amount: Number,
   },
-  contacts: [],
+  contacts: [
+    {
+      contactId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      username: String,
+    },
+  ],
   transactionsId: { type: mongoose.Schema.Types.ObjectId, ref: "Transactions" },
 });
 

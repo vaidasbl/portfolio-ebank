@@ -14,6 +14,7 @@ import DashboardContainer from "./components/03 Dashboard/DashboardContainer";
 import SendContainer from "./components/04 Send money/SendContainer";
 import TransactionHistoryContainer from "./components/05 Transaction history/TransactionHistoryContainer";
 import AccountSettingsContainer from "./components/06 Account settings/AccountSettingsContainer";
+import ContactsContainer from "./components/07 Contacts/ContactsContainer";
 import { updateWallet } from "./Reducers/user";
 import WalletContext from "./Reducers/WalletContext";
 
@@ -61,6 +62,7 @@ function App() {
               path="/accountpanel"
               element={<AccountSettingsContainer />}
             />
+            <Route path="/contacts" element={<ContactsContainer />} />
           </Routes>
         </Router>
       </WalletContext.Provider>

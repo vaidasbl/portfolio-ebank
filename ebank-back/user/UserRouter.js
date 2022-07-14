@@ -257,18 +257,21 @@ router.get("/getwallet/:username", async (req, res) => {
 //Add to contacts
 router.put("/addtocontacts", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
-    const userToAdd = await User.findOne({ username: req.body.usernameToAdd });
+    const user = await User.findById(req.body.userid);
+    const userToAdd = await User.findOne({
+      username: req.body.contactUsername,
+    });
 
-    if (user && userToAdd) {
-      user.contacts.push({ username: userToAdd.username });
-      await user.save();
-      res.send(user.contacts);
-    } else if (!userToAdd) {
-      res.status(400).send("not found");
+    if (userToAdd) {
+      user.contacts.push({
+        contactId: userToAdd._id,
+        username: userToAdd.username,
+      });
     } else {
-      res.send("error");
+      res.status(400).send("user was not found");
     }
+    await user.save();
+    res.send(user.contacts);
   } catch (err) {
     res.send(err.message);
   }
@@ -277,14 +280,12 @@ router.put("/addtocontacts", async (req, res) => {
 //Remove from contacts
 router.put("/removefromcontacts", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
-    const userToRemove = await User.findOne({
-      username: req.body.userToRemove,
-    });
+    const user = await User.findById(req.body.userid);
+    const userToRemove = await User.findById(req.body.contactId);
 
     if (user && userToRemove) {
       const index = await user.contacts.findIndex(
-        (c) => c.username == userToRemove.username
+        (c) => c.contactId == userToRemove._id
       );
       await user.contacts.splice(index, 1);
       await user.save();
@@ -300,16 +301,14 @@ router.put("/removefromcontacts", async (req, res) => {
 });
 
 //Get contacts
-router.get("/:username/contacts", async (req, res) => {
+router.get("/:userid/contacts", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findById(req.params.userid);
     if (user) {
       res.send(user.contacts);
-    } else {
-      res.send("no user???");
     }
   } catch (err) {
-    res.send(err.message);
+    res.send(err);
   }
 });
 

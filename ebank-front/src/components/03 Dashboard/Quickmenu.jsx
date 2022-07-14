@@ -18,12 +18,18 @@ const Quickmenu = () => {
     <div className="recenttransactions ">
       <div className="subtitle mb-2">Quickmenu</div>
       <div>
-        <button id="sendmoneybtn" className="myBtn7" onClick={navpush}>
+        <button
+          id="sendmoneybtn"
+          className="myBtn7"
+          onClick={() => navigate("/send")}
+        >
           Send money
         </button>
       </div>
       <div>
-        <button className="myBtn7">Create demand template</button>
+        <button className="myBtn7" onClick={() => navigate("/contacts")}>
+          Contacts
+        </button>
       </div>
       <div>
         <button className="myBtn7">View currency rates</button>

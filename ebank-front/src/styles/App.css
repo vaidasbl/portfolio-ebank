@@ -333,6 +333,7 @@ button:disabled {
 }
 
 .recenttransactions {
+  height: 160px;
   margin-top: 15px;
 
   border: 1px solid rgba(0, 82, 189, 0.116);
@@ -462,11 +463,15 @@ button:disabled {
 }
 
 .pagination-bottom {
+  display: flex;
+  justify-content: center;
+  border: 1px solid red;
+  width: 250px;
   margin-top: 10px;
 }
 
 .transactionslist {
-  height: 350px;
+  height: 300px;
 }
 
 .passwordbox {
@@ -482,14 +487,18 @@ button:disabled {
   height: 35px;
 }
 
-.myBtn10:before {
-  content: "";
-  flex: 1 1;
-  border-bottom: 1px solid black;
-
-  margin: auto;
-}
-
 .myBtn10:hover {
   color: rgb(0, 82, 189);
+}
+
+.lefter {
+  margin-left: -20px;
+}
+
+.pagination-container {
+  height: 50px;
+}
+
+.contactslist {
+  height: 300px;
 }

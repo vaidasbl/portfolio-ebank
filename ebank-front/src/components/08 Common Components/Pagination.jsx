@@ -36,14 +36,14 @@ const Pagination = ({ setPage, page, numOfPages }) => {
   };
 
   useEffect(() => {
-    if (numOfPages >= 5) {
-      setPages(_.range(2, 5));
-    } else if (numOfPages < 5) {
+    if (numOfPages >= 4) {
+      setPages(_.range(2, 4));
+    } else if (numOfPages < 4) {
       setPages(_.range(2, numOfPages));
     }
     console.log(pages);
   }, [numOfPages]);
-  if (numOfPages > 5) {
+  if (numOfPages > 4) {
     return (
       <div>
         <div className="d-flex justify-content-center">
@@ -82,7 +82,7 @@ const Pagination = ({ setPage, page, numOfPages }) => {
 
             {/* SPACE  */}
 
-            {page < 5 || page === numOfPages ? (
+            {page < 4 || page === numOfPages ? (
               <li className="page-item">
                 <button className="page-link nohoverbtn" disabled>
                   &lt;...&gt;
@@ -141,7 +141,7 @@ const Pagination = ({ setPage, page, numOfPages }) => {
         </div>
       </div>
     );
-  } else if (numOfPages <= 5 && numOfPages > 1) {
+  } else if (numOfPages <= 4 && numOfPages > 1) {
     return (
       <div>
         <div className="d-flex justify-content-center">

@@ -25,7 +25,9 @@ const DashboardNavbar = () => {
           >
             Transaction history
           </div>
-          <div className="col-sm-3 navoption">New payment</div>
+          <div className="col-sm-3 navoption" onClick={() => navigate("/send")}>
+            New payment
+          </div>
           <div
             className="col-sm-3 navoption"
             onClick={() => navigate("/accountpanel")}
