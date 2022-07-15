@@ -262,18 +262,22 @@ router.put("/addtocontacts", async (req, res) => {
       username: req.body.contactUsername,
     });
 
-    if (userToAdd) {
+    if (!userToAdd) {
+      res.status(400).send("user was not found");
+    } else if (user.contacts.some((c) => c.username === userToAdd.username)) {
+      res.status(400).send("already exists");
+    } else if (user.username === userToAdd.username) {
+      res.status(400).send("cant add yourself");
+    } else {
       user.contacts.push({
         contactId: userToAdd._id,
         username: userToAdd.username,
       });
-    } else {
-      res.status(400).send("user was not found");
+      await user.save();
+      res.send(user.contacts);
     }
-    await user.save();
-    res.send(user.contacts);
   } catch (err) {
-    res.send(err.message);
+    res.send(err);
   }
 });
 

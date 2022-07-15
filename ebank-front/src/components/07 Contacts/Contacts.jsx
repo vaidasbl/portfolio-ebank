@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router";
 import { updateInfo } from "../../Reducers/user";
 
 const Contacts = () => {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
   const [contacts, setContacts] = useState([]);
   const [contactUsername, setContactUsername] = useState("");
@@ -30,9 +31,10 @@ const Contacts = () => {
         "http://localhost:3002/api/bank/users/addtocontacts",
         { userid: user._id, contactUsername: contactUsername }
       );
-      getContacts();
+      await getContacts();
+      setContactUsername("");
     } catch (err) {
-      alert(err);
+      alert(err.response.data);
     }
   };
 
@@ -63,18 +65,47 @@ const Contacts = () => {
             <div key={c.contactId} className="row">
               <div className="col-6">{c.username}</div>
               <div className="col-6">
-                <button type="button" onClick={() => handleRemove(c)}>
+                <button
+                  type="button"
+                  className="myBtn11"
+                  onClick={() => handleRemove(c)}
+                >
                   Remove
                 </button>
               </div>
             </div>
           ))}
-          <div></div>
         </div>
-        <input type="text" className="my-form" onChange={handleChange} />
-        <button type="button" className="myBtn7" onClick={handleAdd}>
-          add
-        </button>
+
+        <input
+          type="text"
+          placeholder="username"
+          className="my-form"
+          value={contactUsername}
+          onChange={handleChange}
+        />
+
+        <div>
+          <button
+            disabled={!contactUsername}
+            type="button"
+            className="myBtn4 mt-2"
+            onClick={handleAdd}
+          >
+            Add
+          </button>
+        </div>
+        <hr className="hrhr1 " />
+
+        <div className="absolute-btn">
+          <button
+            type="button"
+            className="myBtn4 "
+            onClick={() => navigate(-1)}
+          >
+            Go back
+          </button>
+        </div>
       </div>
     </div>
   );

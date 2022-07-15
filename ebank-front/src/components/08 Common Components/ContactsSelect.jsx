@@ -21,7 +21,7 @@ const ContactsSelect = ({ setContact }) => {
   const getContacts = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user.username}/contacts`
+        `http://localhost:3002/api/bank/users/${user._id}/contacts`
       );
       setContacts(result.data);
     } catch (err) {

@@ -73,8 +73,9 @@ const SendForm = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="titlecontainer container">
+      <div className="titlecontainer container sendformcontainer">
         <div className="row summarytitle">Send</div>
+
         <form>
           <div className="container">
             <div className="mt-4 row">
@@ -94,7 +95,7 @@ const SendForm = () => {
           </div>
 
           <div className="container mt-40">
-            <div className=" row">
+            <div className="row">
               <div className="col-8">
                 <input
                   value={amount}
@@ -117,22 +118,17 @@ const SendForm = () => {
           </div>
         </form>
       </div>
-      <div className="container mt-250 ">
-        <div className="row buttonsrow ">
-          <div className="col-6 ">
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="myBtn9"
-            >
-              Go back
-            </button>
-          </div>
-          <div className="col-6">
-            <button type="button" onClick={handleSend} className="myBtn9">
-              Proceed
-            </button>
-          </div>
+      <hr className="hrhr1" />
+      <div className="row buttonsrow">
+        <div className="col-6">
+          <button type="button" className="myBtn4" onClick={() => navigate(-1)}>
+            Go back
+          </button>
+        </div>
+        <div className="col-6">
+          <button type="button" className="myBtn4" onClick={handleSend}>
+            Save
+          </button>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
@@ -74,11 +75,19 @@ const AccountSettings = () => {
             className="mt-4 setisopenbutton"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <button type="button" className="myBtn10">
-              Change password
-            </button>
+            <div className="inline-block">
+              <button type="button" className="myBtn10">
+                Change password
+              </button>
+            </div>
+            <div className="inline-block">
+              <div className={isOpen ? "arrow-open " : "arrow "}>
+                <ArrowLeftIcon />
+              </div>
+            </div>
           </div>
-          <div className="passwordbox redborder">
+
+          <div className="passwordbox">
             {isOpen && (
               <div>
                 <div className="mt-4">
@@ -87,7 +96,6 @@ const AccountSettings = () => {
                     className="my-form"
                     type="text"
                     id="txtLoginPassword"
-                    placeholder="Password"
                     onChange={handleChange}
                   />
                 </div>
@@ -99,7 +107,6 @@ const AccountSettings = () => {
                     className="my-form"
                     type="text"
                     id="txtLoginPasswordRepeat"
-                    placeholder="Repeat password"
                     onChange={handleChange}
                   />
                 </div>
@@ -107,7 +114,7 @@ const AccountSettings = () => {
               </div>
             )}
           </div>
-
+          <hr className="hrhr1" />
           <div className="row buttonsrow">
             <div className="col-6">
               <button

@@ -52,6 +52,7 @@ const TransactionHistory = () => {
       <div className="pagination-container">
         <Pagination setPage={setPage} page={page} numOfPages={numOfPages} />
       </div>
+      <hr className="hrhr1" />
       <div className="col-6 lefter">
         <button type="button" className="myBtn4 " onClick={() => navigate(-1)}>
           Go back

@@ -53,7 +53,7 @@
   width: 90px;
   height: 32px;
   color: rgb(0, 82, 189);
-  margin-top: 15px;
+
   font-size: 18px;
 }
 
@@ -97,10 +97,12 @@
 }
 
 .arrow {
+  width: 20px;
   transform: rotate(0deg);
   transition: transform 1s ease;
 }
 .arrow-open {
+  width: 20px;
   transform: rotate(-90deg);
   transition: transform 1s ease;
 }
@@ -111,6 +113,9 @@ button:disabled {
   border: 1px solid rgba(15, 96, 163, 0.123);
   color: rgb(0, 82, 189);
   background-color: rgba(218, 218, 218, 0.3647058824);
+}
+.buttonsrow {
+  margin-top: -15px;
 }
 
 .myBtn1:hover {
@@ -349,7 +354,6 @@ button:disabled {
 .subtitle {
   font-size: 17px;
 }
-
 .myBtn8 {
   background-color: white;
   position: relative;
@@ -357,6 +361,24 @@ button:disabled {
   cursor: pointer;
   user-select: none;
   z-index: 2;
+}
+
+.myBtn8:hover {
+  color: #145796;
+}
+
+.myBtn11 {
+  background-color: white;
+  border: none;
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 15px;
+  width: 80px;
+  color: rgb(0, 82, 189);
+}
+
+.myBtn11:hover {
+  color: white;
+  background-color: #145796;
 }
 
 .contactsdropdown-open {
@@ -483,8 +505,9 @@ button:disabled {
   background-color: white;
   border: none;
   font-size: 16px;
-
-  height: 35px;
+  user-select: none;
+  cursor: pointer;
+  height: 30px;
 }
 
 .myBtn10:hover {
@@ -500,5 +523,23 @@ button:disabled {
 }
 
 .contactslist {
-  height: 300px;
+  height: 275px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.sendformcontainer {
+  height: 400px;
+}
+
+.absolute-btn {
+  position: absolute;
+  width: fit-content;
+  margin: 0 47px;
+}
+
+.hrhr1 {
+  background-image: linear-gradient(to right, white, rgb(82, 82, 82), white);
 }
