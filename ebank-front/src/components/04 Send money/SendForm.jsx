@@ -16,7 +16,7 @@ const SendForm = () => {
   const [amount, setAmount] = useState("");
 
   const request = {
-    sender: user.username,
+    sender: user._id,
     recipient: contact,
     amount: amount,
     currency: currency,
@@ -40,7 +40,7 @@ const SendForm = () => {
           request
         );
         refreshWallet();
-        alert(result.data.message);
+        alert(result.data);
         navigate("/");
       } catch (err) {
         alert(err.response.data);

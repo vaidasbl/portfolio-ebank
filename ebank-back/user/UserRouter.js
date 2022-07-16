@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { User } = require("./User");
 const { Transactions } = require("../transactions/Transactions");
+const { Contacts } = require("../Contacts/Contacts");
 
 const router = express.Router();
 
@@ -46,9 +47,14 @@ router.post("/new", async (req, res) => {
         amount: 0,
       },
       transactionsId: null,
+      contactsId: null,
     });
 
     const transactions = new Transactions({
+      userId: user._id,
+    });
+
+    const contacts = new Contacts({
       userId: user._id,
     });
 
@@ -62,7 +68,9 @@ router.post("/new", async (req, res) => {
       res.status(400).send("Username or password cant be empty");
       return;
     } else {
+      await contacts.save();
       await transactions.save();
+      user.contactsId = contacts._id;
       user.transactionsId = transactions._id;
       await user.save();
       res.send(user);
@@ -156,12 +164,12 @@ router.put("/addtowallet", async (req, res) => {
 //Send money
 router.put("/send", async (req, res) => {
   try {
-    const sender = await User.findOne({ username: req.body.sender });
-    const senderTransactions = await Transactions.findOne({
+    const sender = await User.findById(req.body.sender);
+    const senderTransactionsObj = await Transactions.findOne({
       userId: sender._id,
     });
     const recipient = await User.findOne({ username: req.body.recipient });
-    const recipientTransactions = await Transactions.findOne({
+    const recipientTransactionsObj = await Transactions.findOne({
       userId: recipient._id,
     });
     if (!recipient) {
@@ -188,25 +196,25 @@ router.put("/send", async (req, res) => {
       );
       sender.wallet.amount -= amountSent;
 
-      recipientTransactions.transactions.push({
+      recipientTransactionsObj.transactions.push({
         amount: amountReceived,
         currency: recipient.wallet.currency,
         income: true,
-        who: sender.username,
+        who: sender._id,
         date: new Date().toLocaleString("lt"),
       });
-      senderTransactions.transactions.push({
+      senderTransactionsObj.transactions.push({
         amount: amountSent,
         currency: sender.wallet.currency,
         income: false,
-        who: recipient.username,
+        who: recipient._id,
         date: new Date().toLocaleString("lt"),
       });
 
       await sender.save();
       await recipient.save();
-      await senderTransactions.save();
-      await recipientTransactions.save();
+      await senderTransactionsObj.save();
+      await recipientTransactionsObj.save();
       res.send({
         message: `Succesfully sent ${req.body.amount} ${req.body.currency} to ${req.body.recipient}`,
       });
@@ -258,24 +266,27 @@ router.get("/getwallet/:username", async (req, res) => {
 router.put("/addtocontacts", async (req, res) => {
   try {
     const user = await User.findById(req.body.userid);
+    const userContacts = await Contacts.findOne({ userId: req.body.userid });
     const userToAdd = await User.findOne({
       username: req.body.contactUsername,
     });
+    console.log(userToAdd);
+    // if (!userToAdd) {
+    //   console.log("first ifs");
+    //   res.status(400).send("user was not found");
+    // } else if (user.contacts.some((c) => c.username === userToAdd.username)) {
+    //   console.log("second ifs");
+    //   res.status(400).send("already exists");
+    // } else if (user.username === userToAdd.username) {
+    //   console.log("third ifs");
+    //   res.status(400).send("cant add yourself");
+    // } else {
+    //   console.log("else");
 
-    if (!userToAdd) {
-      res.status(400).send("user was not found");
-    } else if (user.contacts.some((c) => c.username === userToAdd.username)) {
-      res.status(400).send("already exists");
-    } else if (user.username === userToAdd.username) {
-      res.status(400).send("cant add yourself");
-    } else {
-      user.contacts.push({
-        contactId: userToAdd._id,
-        username: userToAdd.username,
-      });
-      await user.save();
-      res.send(user.contacts);
-    }
+    userContacts.contacts.push(userToAdd);
+    await userContacts.save();
+    await user.save();
+    res.send(userContacts);
   } catch (err) {
     res.send(err);
   }
@@ -285,15 +296,17 @@ router.put("/addtocontacts", async (req, res) => {
 router.put("/removefromcontacts", async (req, res) => {
   try {
     const user = await User.findById(req.body.userid);
+    const userContactsObj = await Contacts.findOne({ userId: req.body.userid });
     const userToRemove = await User.findById(req.body.contactId);
 
     if (user && userToRemove) {
-      const index = await user.contacts.findIndex(
+      const index = await userContactsObj.contacts.findIndex(
         (c) => c.contactId == userToRemove._id
       );
-      await user.contacts.splice(index, 1);
-      await user.save();
-      res.send(user.contacts);
+      await userContactsObj.contacts.splice(index, 1);
+
+      await userContactsObj.save();
+      res.send(userContactsObj.contacts);
     } else if (!userToRemove) {
       res.status(400).send("not found");
     } else {
@@ -304,12 +317,25 @@ router.put("/removefromcontacts", async (req, res) => {
   }
 });
 
-//Get contacts
+//Get contacts names
 router.get("/:userid/contacts", async (req, res) => {
   try {
     const user = await User.findById(req.params.userid);
-    if (user) {
-      res.send(user.contacts);
+    const userContactsObj = await Contacts.findOne({
+      userId: req.params.userid,
+    });
+    if (user && userContactsObj) {
+      const userContactsNames = [];
+
+      for (const id of userContactsObj.contacts) {
+        const contact = await User.findById(id);
+        userContactsNames.push({
+          _id: contact._id,
+          username: contact.username,
+        });
+      }
+
+      res.send(userContactsNames);
     }
   } catch (err) {
     res.send(err);
@@ -317,13 +343,28 @@ router.get("/:userid/contacts", async (req, res) => {
 });
 
 //Get first five transactions
-router.get("/:username/recenttransactions", async (req, res) => {
+router.get("/:userid/recenttransactions", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findById(req.params.userid);
     if (user) {
-      const transactions = await Transactions.findOne({ userId: user._id });
+      const transactionsObj = await Transactions.findOne({ userId: user._id });
+      if (transactionsObj) {
+        const transactions = [];
+        for (const transaction of transactionsObj.transactions) {
+          const who = await User.findById(transaction.who);
+          transactions.push({
+            amount: transaction.amount,
+            currency: transaction.currency,
+            income: transaction.income,
+            who: who.username,
+            date: transaction.date,
+          });
+        }
 
-      res.send(transactions.transactions.reverse().slice(0, 5));
+        res.send(transactions.reverse().slice(0, 5));
+      } else {
+        res.send([]);
+      }
     } else {
       res.send("no user???");
     }
@@ -333,13 +374,28 @@ router.get("/:username/recenttransactions", async (req, res) => {
 });
 
 //Get full transactions
-router.get("/:username/alltransactions", async (req, res) => {
+router.get("/:userid/alltransactions", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findById(req.params.userid);
     if (user) {
-      const transactions = await Transactions.findOne({ userId: user._id });
+      const transactionsObj = await Transactions.findOne({ userId: user._id });
 
-      res.send(transactions.transactions.reverse());
+      if (transactionsObj) {
+        const transactions = [];
+        for (const transaction of transactionsObj.transactions) {
+          const who = await User.findById(transaction.who);
+          transactions.push({
+            amount: transaction.amount,
+            currency: transaction.currency,
+            income: transaction.income,
+            who: who.username,
+            date: transaction.date,
+          });
+        }
+        res.send(transactions.reverse());
+      } else {
+        res.send([]);
+      }
     } else {
       res.send("no user???");
     }
@@ -349,21 +405,37 @@ router.get("/:username/alltransactions", async (req, res) => {
 });
 
 //Get transactions page
-router.get("/:username/transactionspage=:page/size=:size", async (req, res) => {
+router.get("/:userid/transactionspage=:page/size=:size", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findById(req.params.userid);
     if (user) {
-      const transactions = await Transactions.findOne({ userId: user._id });
-      const allTransactions = transactions.transactions.length;
-      page = transactions.transactions;
-      const pageNum = req.params.page;
-      const pageSize = req.params.size;
+      const transactionsObj = await Transactions.findOne({ userId: user._id });
+      if (transactionsObj) {
+        const transactions = [];
+        for (const transaction of transactionsObj.transactions) {
+          const who = await User.findById(transaction.who);
+          transactions.push({
+            amount: transaction.amount,
+            currency: transaction.currency,
+            income: transaction.income,
+            who: who.username,
+            date: transaction.date,
+          });
+        }
 
-      page = page
-        .reverse()
-        .slice(pageNum * pageSize - pageSize, pageNum * pageSize);
+        const allTransactions = transactionsObj.transactions.length;
+        page = transactions;
+        const pageNum = req.params.page;
+        const pageSize = req.params.size;
 
-      res.send({ page: page, allTransactions: allTransactions });
+        page = page
+          .reverse()
+          .slice(pageNum * pageSize - pageSize, pageNum * pageSize);
+
+        res.send({ page: page, allTransactions: allTransactions });
+      } else {
+        res.send([]);
+      }
     } else {
       res.send("no user???");
     }

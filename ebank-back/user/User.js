@@ -9,12 +9,8 @@ const UserSchema = new Schema({
     currency: String,
     amount: Number,
   },
-  contacts: [
-    {
-      contactId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      username: String,
-    },
-  ],
+  contactsId: { type: mongoose.Schema.Types.ObjectId, ref: "Contacts" },
+
   transactionsId: { type: mongoose.Schema.Types.ObjectId, ref: "Transactions" },
 });
 

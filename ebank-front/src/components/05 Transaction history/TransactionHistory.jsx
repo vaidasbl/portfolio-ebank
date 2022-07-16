@@ -19,7 +19,7 @@ const TransactionHistory = () => {
   const getTransactionsPage = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user.username}/transactionspage=${page}/size=${pageSize}`
+        `http://localhost:3002/api/bank/users/${user._id}/transactionspage=${page}/size=${pageSize}`
       );
 
       setTransactions(result.data.page);
@@ -36,7 +36,7 @@ const TransactionHistory = () => {
   return (
     <DashboardView header="Transaction history">
       <div className="transactionslist">
-        {transactions.map((t) => (
+        {transactions?.map((t) => (
           <div key={t.date} className="row mb-2">
             <div
               className={t.income ? "col-3 income-true" : "col-3 income-false"}

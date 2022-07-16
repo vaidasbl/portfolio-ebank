@@ -9,7 +9,7 @@ const RecentTransactions = () => {
   const getTransactions = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user.username}/recenttransactions`
+        `http://localhost:3002/api/bank/users/${user._id}/recenttransactions`
       );
 
       setTransactions(result.data);
@@ -25,7 +25,7 @@ const RecentTransactions = () => {
   return (
     <div className="recenttransactions ">
       <div className="subtitle mb-2">Recent transactions</div>
-      {transactions.map((t) => (
+      {transactions?.map((t) => (
         <div key={t.date} className="row">
           <div
             className={t.income ? "col-3 income-true" : "col-3 income-false"}

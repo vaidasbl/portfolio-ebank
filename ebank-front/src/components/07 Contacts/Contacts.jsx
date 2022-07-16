@@ -44,7 +44,7 @@ const Contacts = () => {
     try {
       const result = await axios.put(
         "http://localhost:3002/api/bank/users/removefromcontacts",
-        { userid: user._id, contactId: c.contactId }
+        { userid: user._id, contactId: c._id }
       );
       console.log(result.data);
       getContacts();
@@ -70,7 +70,7 @@ const Contacts = () => {
       }
     >
       {contacts?.map((c) => (
-        <div key={c.contactId} className="row mb-2">
+        <div key={c._id} className="row mb-2">
           <div className="col-6">{c.username}</div>
           <div className="col-6">
             <button

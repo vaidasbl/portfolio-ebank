@@ -8,7 +8,7 @@ const TransactionsSchema = new Schema({
       amount: Number,
       currency: String,
       income: Boolean,
-      who: String,
+      who: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       date: String,
     },
   ],
