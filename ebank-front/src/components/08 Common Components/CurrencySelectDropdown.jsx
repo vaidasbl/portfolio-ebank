@@ -29,34 +29,38 @@ const CurrencySelectDropdown = ({ setCurrency }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-6">
-        <button type="button" onClick={handleOpen} className="myBtn8 ">
-          currency
-        </button>
-      </div>
-      <div className="col-6">
-        <div className={open ? "arrow-open" : "arrow"}>
-          <ArrowLeftIcon />
+    <div className="container ">
+      <div className="row">
+        <div ref={ref}>
+          <div className="inline-block ">
+            <button
+              type="button"
+              className="myBtn10"
+              onClick={() => setOpen(!open)}
+            >
+              currency
+            </button>
+          </div>
+          <div className="inline-block">
+            <div className={open ? "arrow-open " : "arrow "}>
+              <ArrowLeftIcon />
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div ref={ref}>
-        <div
-          className={
-            open ? "contactsdropdown-open " : "contactsdropdown-closed"
-          }
-        >
-          {open &&
-            currencies.map((c) => (
-              <div
-                key={c}
-                className={"row contactitem "}
-                onClick={() => handleSetCurrency(c)}
-              >
-                {c}
-              </div>
-            ))}
+        <div>
+          <div className={open ? "dropdown-open " : "dropdown-closed"}>
+            {open &&
+              currencies.map((c) => (
+                <div
+                  key={c}
+                  className={"row contactitem"}
+                  onClick={() => handleSetCurrency(c)}
+                >
+                  {c}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>

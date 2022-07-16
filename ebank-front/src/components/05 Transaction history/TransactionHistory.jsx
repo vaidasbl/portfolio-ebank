@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import DashboardView from "../08 Common Components/DashboardView";
 import Pagination from "../08 Common Components/Pagination";
 
 const TransactionHistory = () => {
@@ -31,14 +32,12 @@ const TransactionHistory = () => {
   useEffect(() => {
     getTransactionsPage();
   }, [page]);
+
   return (
-    <div className="dashboard-container">
-      <div className="titlecontainer container">
-        <div className="row summarytitle">Transaction history</div>
-      </div>
-      <div className="mt-4 transactionslist">
+    <DashboardView header="Transaction history">
+      <div className="transactionslist">
         {transactions.map((t) => (
-          <div key={t.date} className="row">
+          <div key={t.date} className="row mb-2">
             <div
               className={t.income ? "col-3 income-true" : "col-3 income-false"}
             >
@@ -52,13 +51,7 @@ const TransactionHistory = () => {
       <div className="pagination-container">
         <Pagination setPage={setPage} page={page} numOfPages={numOfPages} />
       </div>
-      <hr className="hrhr1" />
-      <div className="col-6 lefter">
-        <button type="button" className="myBtn4 " onClick={() => navigate(-1)}>
-          Go back
-        </button>
-      </div>
-    </div>
+    </DashboardView>
   );
 };
 

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import { updateInfo } from "../../Reducers/user";
+import ContactAddComponent from "../08 Common Components/ContactAddComponent";
+import DashboardView from "../08 Common Components/DashboardView";
 
 const Contacts = () => {
   const navigate = useNavigate();
@@ -57,57 +59,31 @@ const Contacts = () => {
   }, []);
 
   return (
-    <div className="dashboard-container">
-      <div className="titlecontainer container">
-        <div className="row summarytitle">Contacts</div>
-        <div className="mt-4 contactslist">
-          {contacts?.map((c) => (
-            <div key={c.contactId} className="row">
-              <div className="col-6">{c.username}</div>
-              <div className="col-6">
-                <button
-                  type="button"
-                  className="myBtn11"
-                  onClick={() => handleRemove(c)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <input
-          type="text"
-          placeholder="username"
-          className="my-form"
-          value={contactUsername}
-          onChange={handleChange}
+    <DashboardView
+      header="Contacts"
+      preFooter={
+        <ContactAddComponent
+          contactUsername={contactUsername}
+          handleChange={handleChange}
+          handleAdd={handleAdd}
         />
-
-        <div>
-          <button
-            disabled={!contactUsername}
-            type="button"
-            className="myBtn4 mt-2"
-            onClick={handleAdd}
-          >
-            Add
-          </button>
+      }
+    >
+      {contacts?.map((c) => (
+        <div key={c.contactId} className="row mb-2">
+          <div className="col-6">{c.username}</div>
+          <div className="col-6">
+            <button
+              type="button"
+              className="myBtn11"
+              onClick={() => handleRemove(c)}
+            >
+              Remove
+            </button>
+          </div>
         </div>
-        <hr className="hrhr1 " />
-
-        <div className="absolute-btn">
-          <button
-            type="button"
-            className="myBtn4 "
-            onClick={() => navigate(-1)}
-          >
-            Go back
-          </button>
-        </div>
-      </div>
-    </div>
+      ))}
+    </DashboardView>
   );
 };
 

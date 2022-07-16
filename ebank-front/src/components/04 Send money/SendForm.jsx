@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import WalletContext from "../../Reducers/WalletContext";
 import ContactsSelect from "../08 Common Components/ContactsSelect";
 import CurrencySelectDropdown from "../08 Common Components/CurrencySelectDropdown";
+import DashboardView from "../08 Common Components/DashboardView";
 
 const SendForm = () => {
   const { refreshWallet } = useContext(WalletContext);
@@ -25,6 +26,10 @@ const SendForm = () => {
 
   const handleAmountInput = (e) => {
     setAmount(e.target.value);
+  };
+
+  const handleContactInput = (e) => {
+    setContact(e.target.value);
   };
 
   const handleSend = async () => {
@@ -72,37 +77,36 @@ const SendForm = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="titlecontainer container sendformcontainer">
-        <div className="row summarytitle">Send</div>
-
+    <div>
+      <DashboardView
+        header={"Send"}
+        submitHandler={handleSend}
+        handlerName="Send"
+      >
         <form>
-          <div className="container">
-            <div className="mt-4 row">
-              <div className="col-8">
-                <input
-                  className="my-form"
-                  type="text"
-                  value={contact}
-                  placeholder="Recipient"
-                  onChange={(e) => setContact(e.target.value)}
-                />
-              </div>
-              <div className="col-4 contactsselect">
-                <ContactsSelect setContact={setContact} />
-              </div>
+          <div className="row ">
+            <div className="col-7">
+              <input
+                className="my-form"
+                type="text"
+                value={contact}
+                placeholder="Recipient"
+                onChange={handleContactInput}
+              />
+            </div>
+            <div className="col-5 ">
+              <ContactsSelect setContact={setContact} />
             </div>
           </div>
-
-          <div className="container mt-40">
+          <div className="mt-40 ">
             <div className="row">
-              <div className="col-8">
+              <div className="col-7">
                 <input
-                  value={amount}
-                  onChange={handleAmountInput}
                   className="my-form"
                   type="text"
+                  value={amount}
                   placeholder="Amount"
+                  onChange={handleAmountInput}
                 />
                 <span className="currencyspan">{currency}</span>
                 <div className="underlinebalance ">
@@ -111,26 +115,13 @@ const SendForm = () => {
                 </div>
               </div>
 
-              <div className="col-4">
+              <div className="col-5">
                 <CurrencySelectDropdown setCurrency={setCurrency} />
               </div>
             </div>
           </div>
         </form>
-      </div>
-      <hr className="hrhr1" />
-      <div className="row buttonsrow">
-        <div className="col-6">
-          <button type="button" className="myBtn4" onClick={() => navigate(-1)}>
-            Go back
-          </button>
-        </div>
-        <div className="col-6">
-          <button type="button" className="myBtn4" onClick={handleSend}>
-            Save
-          </button>
-        </div>
-      </div>
+      </DashboardView>
     </div>
   );
 };
