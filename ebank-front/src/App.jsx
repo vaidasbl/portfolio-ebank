@@ -1,6 +1,5 @@
-import { Mail } from "@mui/icons-material";
 import axios from "axios";
-import { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -16,7 +15,9 @@ import SendContainer from "./components/04 Send money/SendContainer";
 import TransactionHistoryContainer from "./components/05 Transaction history/TransactionHistoryContainer";
 import AccountSettingsContainer from "./components/06 Account settings/AccountSettingsContainer";
 import ContactsContainer from "./components/07 Contacts/ContactsContainer";
-import MailContainer from "./components/09 Mail/MailContainer";
+
+import MailInboxContainer from "./components/09 Mail/MailInboxContainer";
+import MailSentContainer from "./components/09 Mail/MailSentContainer";
 import { updateWallet } from "./Reducers/user";
 import WalletContext from "./Reducers/WalletContext";
 
@@ -65,7 +66,8 @@ function App() {
               element={<AccountSettingsContainer />}
             />
             <Route path="/contacts" element={<ContactsContainer />} />
-            <Route path="/mail" element={<MailContainer />} />
+            <Route path="/mail/inbox" element={<MailInboxContainer />} />
+            <Route path="/mail/sent" element={<MailSentContainer />} />
           </Routes>
         </Router>
       </WalletContext.Provider>

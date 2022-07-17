@@ -1,16 +1,17 @@
 import React from "react";
 
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
-import MailNav from "./MailNav";
 
-const MailContainer = () => {
+import MailView from "./MailView";
+
+const MailSentContainer = () => {
   return (
     <div>
       <DashboardNavbar />
 
-      <MailNav />
+      <MailView>SENT</MailView>
     </div>
   );
 };
 
-export default MailContainer;
+export default MailSentContainer;

@@ -46,7 +46,7 @@ const LoginForm = () => {
   return (
     <div>
       <h6 className="title">Login</h6>
-
+      
       <form onSubmit={handleSubmit}>
         <div className="mt-4">
           <input
@@ -69,7 +69,8 @@ const LoginForm = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="row mt-4">
+        <div className="mt-40">
+        <div className="row ">
           <div className="col-6">
             <button
               type="button"
@@ -83,6 +84,7 @@ const LoginForm = () => {
             <button disabled={empty} type="submit" className="myBtn4">
               Proceed
             </button>
+          </div>
           </div>
         </div>
       </form>
