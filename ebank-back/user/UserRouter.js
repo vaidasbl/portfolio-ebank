@@ -266,27 +266,27 @@ router.get("/getwallet/:username", async (req, res) => {
 router.put("/addtocontacts", async (req, res) => {
   try {
     const user = await User.findById(req.body.userid);
-    const userContacts = await Contacts.findOne({ userId: req.body.userid });
+    const userContactsObj = await Contacts.findOne({ userId: req.body.userid });
     const userToAdd = await User.findOne({
       username: req.body.contactUsername,
     });
-    console.log(userToAdd);
-    // if (!userToAdd) {
-    //   console.log("first ifs");
-    //   res.status(400).send("user was not found");
-    // } else if (user.contacts.some((c) => c.username === userToAdd.username)) {
-    //   console.log("second ifs");
-    //   res.status(400).send("already exists");
-    // } else if (user.username === userToAdd.username) {
-    //   console.log("third ifs");
-    //   res.status(400).send("cant add yourself");
-    // } else {
-    //   console.log("else");
 
-    userContacts.contacts.push(userToAdd);
-    await userContacts.save();
-    await user.save();
-    res.send(userContacts);
+    if (!userToAdd) {
+      res.status(400).send(`User '${req.body.contactUsername}' was not found`);
+    } else if (user.username === userToAdd.username) {
+      res.status(400).send("Cant add yourself");
+    } else if (
+      userContactsObj.contacts.some((c) => c._id.str === userToAdd._id.str)
+    ) {
+      res
+        .status(400)
+        .send(`User '${req.body.contactUsername}' is already in contacts`);
+    } else {
+      userContactsObj.contacts.push(userToAdd);
+      await userContactsObj.save();
+      await user.save();
+      res.send(userContactsObj.contacts);
+    }
   } catch (err) {
     res.send(err);
   }

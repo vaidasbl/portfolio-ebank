@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import Logout from "@mui/icons-material/Logout";
+import MailIcon from "@mui/icons-material/Mail";
+import DraftsIcon from "@mui/icons-material/Drafts";
 import { logout } from "../../Reducers/user";
 import { useNavigate } from "react-router";
 
@@ -35,6 +37,9 @@ const DashboardNavbar = () => {
             My account
           </div>
         </div>
+      </div>
+      <div className="me-4" onClick={() => navigate("/mail")}>
+        <MailIcon />
       </div>
       <div onClick={handleLogout} className="me-4 logoutbtn">
         <Logout />

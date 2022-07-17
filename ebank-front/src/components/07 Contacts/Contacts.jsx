@@ -22,6 +22,7 @@ const Contacts = () => {
         `http://localhost:3002/api/bank/users/${user._id}/contacts`
       );
       setContacts(result.data);
+      console.log(result.data);
     } catch (err) {
       alert(err);
     }
@@ -35,6 +36,7 @@ const Contacts = () => {
       );
       await getContacts();
       setContactUsername("");
+      console.log(result);
     } catch (err) {
       alert(err.response.data);
     }
