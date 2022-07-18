@@ -9,23 +9,38 @@ function MailView({ children }) {
       <div className="container">
         <div className="summarytitle  mt-4">Mail</div>
 
-        <div className="row mt-4">
-          <div className="col-6">
+        <div className="row  mt-4">
+          <div className="col-3 ">
             <button
-              className={location === "/mail/inbox" ? "myBtn2" : "myBtn1"}
+              className={
+                location === "/mail/inbox" ? "mailbtnactive" : "mailbtnpassive"
+              }
               type="button"
               onClick={() => navigate("/mail/inbox")}
             >
               Inbox
             </button>
           </div>
-          <div className="col-6">
+          <div className="col-3 ">
             <button
-              className={location === "/mail/sent" ? "myBtn2" : "myBtn1"}
+              className={
+                location === "/mail/sent" ? "mailbtnactive" : "mailbtnpassive"
+              }
               type="button"
               onClick={() => navigate("/mail/sent")}
             >
               Sent
+            </button>
+          </div>
+          <div className="col-6 align-end">
+            <button
+              type="button"
+              className={
+                location === "/mail/new" ? "mailbtnactive" : "mailbtnpassive"
+              }
+              onClick={() => navigate("/mail/new")}
+            >
+              Send mail
             </button>
           </div>
         </div>

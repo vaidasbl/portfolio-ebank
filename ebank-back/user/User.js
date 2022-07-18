@@ -12,6 +12,8 @@ const UserSchema = new Schema({
   contactsId: { type: mongoose.Schema.Types.ObjectId, ref: "Contacts" },
 
   transactionsId: { type: mongoose.Schema.Types.ObjectId, ref: "Transactions" },
+
+  mailId: { type: mongoose.Schema.Types.ObjectId, ref: "Mail" },
 });
 
 const User = mongoose.model("User", UserSchema);

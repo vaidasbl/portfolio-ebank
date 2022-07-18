@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const { User } = require("./User");
 const { Transactions } = require("../transactions/Transactions");
-const { Contacts } = require("../Contacts/Contacts");
+const { Contacts } = require("../contacts/Contacts");
+const { Mail } = require("../mail/Mail");
 
 const router = express.Router();
 
@@ -48,6 +49,7 @@ router.post("/new", async (req, res) => {
       },
       transactionsId: null,
       contactsId: null,
+      mailId: null,
     });
 
     const transactions = new Transactions({
@@ -55,6 +57,10 @@ router.post("/new", async (req, res) => {
     });
 
     const contacts = new Contacts({
+      userId: user._id,
+    });
+
+    const mail = new Mail({
       userId: user._id,
     });
 
@@ -68,8 +74,10 @@ router.post("/new", async (req, res) => {
       res.status(400).send("Username or password cant be empty");
       return;
     } else {
+      await mail.save();
       await contacts.save();
       await transactions.save();
+      user.mailId = mail._id;
       user.contactsId = contacts._id;
       user.transactionsId = transactions._id;
       await user.save();
@@ -441,6 +449,38 @@ router.get("/:userid/transactionspage=:page/size=:size", async (req, res) => {
     }
   } catch (err) {
     res.send(err.message);
+  }
+});
+
+router.put("/sendmail", async (req, res) => {
+  try {
+    const sender = await User.findById(req.body.senderid);
+    const senderMail = await Mail.findOne({ userId: sender._id });
+    const recipient = await User.findOne({ username: req.body.recipient });
+
+    if (!recipient) {
+      res.status(400).send(`User ${req.body.recipient} was not found`);
+    } else {
+      const recipientMail = await Mail.findOne({ userId: recipient._id });
+      
+      senderMail.sent.push({
+        to: recipient._id,
+        subject: req.body.subject,
+        contents: req.body.contents,
+      });
+      recipientMail.inbox.push({
+        from: sender._id,
+        subject: req.body.subject,
+        contents: req.body.contents,
+      });
+
+      await senderMail.save();
+      await recipientMail.save();
+
+      res.send("success");
+    }
+  } catch (err) {
+    res.send(err);
   }
 });
 

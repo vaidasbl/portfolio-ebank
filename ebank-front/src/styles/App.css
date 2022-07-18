@@ -548,3 +548,41 @@ button:disabled {
 }
 .prefooter {
 }
+
+.mailbtnpassive {
+  background-color: white;
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 25px;
+  width: 100px;
+  height: 32px;
+  color: rgb(0, 82, 189);
+
+  font-size: 18px;
+}
+
+.mailbtnactive {
+  background-color: rgb(0, 82, 189);
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 25px;
+  width: 100px;
+  height: 32px;
+  color: rgb(255, 255, 255);
+
+  font-size: 18px;
+}
+
+.mailbody {
+  width: 400px;
+  height: 200px;
+  resize: none;
+  outline: none;
+
+  border: 1px solid rgb(0, 82, 189);
+  border-radius: 15px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+textarea {
+  padding: 10px;
+}
