@@ -18,6 +18,7 @@ import ContactsContainer from "./components/07 Contacts/ContactsContainer";
 
 import MailInboxContainer from "./components/09 Mail/MailInboxContainer";
 import MailNewContainer from "./components/09 Mail/MailNewContainer";
+import MailPreviewContainer from "./components/09 Mail/MailPreviewContainer";
 import MailSentContainer from "./components/09 Mail/MailSentContainer";
 import { updateWallet } from "./Reducers/user";
 import WalletContext from "./Reducers/WalletContext";
@@ -70,6 +71,7 @@ function App() {
             <Route path="/mail/inbox" element={<MailInboxContainer />} />
             <Route path="/mail/sent" element={<MailSentContainer />} />
             <Route path="/mail/new" element={<MailNewContainer />} />
+            <Route path="/mail/:mailid" element={<MailPreviewContainer />} />
           </Routes>
         </Router>
       </WalletContext.Provider>

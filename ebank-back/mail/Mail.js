@@ -6,16 +6,20 @@ const MailSchema = new Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   inbox: [
     {
-      from: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      who: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       subject: String,
       contents: String,
+      date: String,
+      income: Boolean,
     },
   ],
   sent: [
     {
-      to: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      who: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       subject: String,
       contents: String,
+      date: String,
+      income: Boolean,
     },
   ],
 });

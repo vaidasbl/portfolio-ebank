@@ -180,6 +180,7 @@ router.put("/send", async (req, res) => {
     const recipientTransactionsObj = await Transactions.findOne({
       userId: recipient._id,
     });
+
     if (!recipient) {
       res
         .status(400)
@@ -190,6 +191,7 @@ router.put("/send", async (req, res) => {
     ) {
       res.status(400).send("Not enough money in the account");
     } else {
+      const recipientMail = await Mail.findOne({ userId: recipient._id });
       const amountReceived = exchange(
         req.body.amount,
         req.body.currency,
@@ -219,10 +221,18 @@ router.put("/send", async (req, res) => {
         date: new Date().toLocaleString("lt"),
       });
 
+      recipientMail.inbox.push({
+        subject: `RECEIVED ${amountReceived} ${recipient.wallet.currency}`,
+        contents: "TEST CONTENTS",
+        date: new Date().toLocaleString("lt"),
+        income: true,
+      });
+
       await sender.save();
       await recipient.save();
       await senderTransactionsObj.save();
       await recipientTransactionsObj.save();
+      await recipientMail.save();
       res.send({
         message: `Succesfully sent ${req.body.amount} ${req.body.currency} to ${req.body.recipient}`,
       });
@@ -452,6 +462,7 @@ router.get("/:userid/transactionspage=:page/size=:size", async (req, res) => {
   }
 });
 
+//Send mail
 router.put("/sendmail", async (req, res) => {
   try {
     const sender = await User.findById(req.body.senderid);
@@ -462,16 +473,20 @@ router.put("/sendmail", async (req, res) => {
       res.status(400).send(`User ${req.body.recipient} was not found`);
     } else {
       const recipientMail = await Mail.findOne({ userId: recipient._id });
-      
+
       senderMail.sent.push({
-        to: recipient._id,
+        who: recipient._id,
         subject: req.body.subject,
         contents: req.body.contents,
+        date: new Date().toLocaleString("lt"),
+        income: false,
       });
       recipientMail.inbox.push({
-        from: sender._id,
+        who: sender._id,
         subject: req.body.subject,
         contents: req.body.contents,
+        date: new Date().toLocaleString("lt"),
+        income: true,
       });
 
       await senderMail.save();
@@ -479,6 +494,88 @@ router.put("/sendmail", async (req, res) => {
 
       res.send("success");
     }
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+//Get inbox
+router.get("/:userid/inbox", async (req, res) => {
+  try {
+    const userMail = await Mail.findOne({ userId: req.params.userid });
+    const inbox = [];
+
+    for (const mail of userMail.inbox) {
+      const from = await User.findById(mail.who);
+      if (from) {
+        inbox.push({
+          _id: mail._id,
+          who: from.username,
+          subject: mail.subject,
+          contents: mail.contents,
+          date: mail.date,
+          income: mail.income,
+        });
+      } else {
+        inbox.push({
+          _id: mail._id,
+          who: "Notification",
+          subject: mail.subject,
+          contents: mail.contents,
+          date: mail.date,
+          income: mail.income,
+        });
+      }
+    }
+
+    res.send(inbox);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+//Get sent mail
+router.get("/:userid/sent", async (req, res) => {
+  try {
+    const userMail = await Mail.findOne({ userId: req.params.userid });
+    const sent = [];
+
+    for (const mail of userMail.sent) {
+      const to = await User.findById(mail.who);
+      sent.push({
+        _id: mail._id,
+        who: to.username,
+        subject: mail.subject,
+        contents: mail.contents,
+        date: mail.date,
+        income: mail.income,
+      });
+    }
+    res.send(sent);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+
+//Get ANY mail
+router.get("/:userid/:letterid", async (req, res) => {
+  try {
+    const userMail = await Mail.findOne({ userId: req.params.userid });
+    const allMail = userMail.inbox.concat(userMail.sent);
+
+    const letter = await allMail.find((m) => m._id == req.params.letterid);
+    const user = await User.findById(letter.who);
+
+    const letterWithName = {
+      who: user.username,
+      subject: letter.subject,
+      contents: letter.contents,
+      date: letter.date,
+      income: letter.income,
+    };
+    console.log(user);
+
+    res.send(letterWithName);
   } catch (err) {
     res.send(err);
   }
