@@ -17,7 +17,6 @@ const MailSentContainer = () => {
       const result = await axios.get(
         `http://localhost:3002/api/bank/users/${user._id}/sent`
       );
-      console.log(result.data);
       setSent(result.data);
     } catch (err) {
       alert(err);

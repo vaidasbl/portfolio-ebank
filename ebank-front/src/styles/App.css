@@ -586,3 +586,12 @@ button:disabled {
 textarea {
   padding: 10px;
 }
+
+.muiIcon {
+  color: orange;
+  cursor: pointer;
+}
+
+.muiIcon:hover {
+  color: rgb(252, 176, 35);
+}

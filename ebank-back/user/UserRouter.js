@@ -211,21 +211,22 @@ router.put("/send", async (req, res) => {
         currency: recipient.wallet.currency,
         income: true,
         who: sender._id,
-        date: new Date().toLocaleString("lt"),
+        date: dateNow(),
       });
       senderTransactionsObj.transactions.push({
         amount: amountSent,
         currency: sender.wallet.currency,
         income: false,
         who: recipient._id,
-        date: new Date().toLocaleString("lt"),
+        date: dateNow(),
       });
 
       recipientMail.inbox.push({
-        subject: `RECEIVED ${amountReceived} ${recipient.wallet.currency}`,
+        subject: `Received ${amountReceived} ${recipient.wallet.currency}`,
         contents: "TEST CONTENTS",
         date: new Date().toLocaleString("lt"),
         income: true,
+        seen: false,
       });
 
       await sender.save();
@@ -478,15 +479,17 @@ router.put("/sendmail", async (req, res) => {
         who: recipient._id,
         subject: req.body.subject,
         contents: req.body.contents,
-        date: new Date().toLocaleString("lt"),
+        date: dateNow(),
         income: false,
+        seen: false,
       });
       recipientMail.inbox.push({
         who: sender._id,
         subject: req.body.subject,
         contents: req.body.contents,
-        date: new Date().toLocaleString("lt"),
+        date: dateNow(),
         income: true,
+        seen: false,
       });
 
       await senderMail.save();
@@ -515,6 +518,7 @@ router.get("/:userid/inbox", async (req, res) => {
           contents: mail.contents,
           date: mail.date,
           income: mail.income,
+          seen: mail.seen,
         });
       } else {
         inbox.push({
@@ -524,11 +528,23 @@ router.get("/:userid/inbox", async (req, res) => {
           contents: mail.contents,
           date: mail.date,
           income: mail.income,
+          seen: mail.seen,
         });
       }
     }
 
     res.send(inbox);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+router.get("/:userid/unseen", async (req, res) => {
+  try {
+    const userMail = await Mail.findOne({ userId: req.params.userid });
+    const unseen = Object.values(userMail.inbox).some((s) => s.seen === false);
+    console.log(unseen);
+    res.send(unseen);
   } catch (err) {
     res.send(err);
   }
@@ -566,19 +582,41 @@ router.get("/:userid/:letterid", async (req, res) => {
     const letter = await allMail.find((m) => m._id == req.params.letterid);
     const user = await User.findById(letter.who);
 
-    const letterWithName = {
-      who: user.username,
-      subject: letter.subject,
-      contents: letter.contents,
-      date: letter.date,
-      income: letter.income,
-    };
-    console.log(user);
+    let letterWithName = {};
+    if (letter.income) {
+      letterWithName = {
+        who: user.username,
+        subject: letter.subject,
+        contents: letter.contents,
+        date: letter.date,
+        income: letter.income,
+      };
+      letter.seen = true;
+      await userMail.save();
+    } else {
+      letterWithName = {
+        who: user.username,
+        subject: letter.subject,
+        contents: letter.contents,
+        date: letter.date,
+        income: letter.income,
+      };
+    }
 
     res.send(letterWithName);
   } catch (err) {
     res.send(err);
   }
 });
+
+const dateNow = () => {
+  return new Date().toLocaleString("lt", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 module.exports = router;

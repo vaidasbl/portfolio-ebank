@@ -42,7 +42,7 @@ const MailInboxContainer = () => {
               <div className="col-3">{m.who}</div>
               <div className="col-3">{m.subject}</div>
 
-              <div className="col-6">{m.date}</div>
+              <div className="col-6">{m.seen ? "true" : "false"}</div>
             </div>
           ))}
         </div>

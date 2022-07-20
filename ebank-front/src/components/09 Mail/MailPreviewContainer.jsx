@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import WalletContext from "../../Reducers/WalletContext";
 
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
 
@@ -9,6 +10,7 @@ import MailView from "./MailView";
 
 const MailPreviewContainer = () => {
   const user = useSelector((state) => state.user.value);
+  const { isUnseen } = useContext(WalletContext);
   const [mailInfo, setMailInfo] = useState({});
   const param = useParams();
 
@@ -17,8 +19,9 @@ const MailPreviewContainer = () => {
       const result = await axios.get(
         `http://localhost:3002/api/bank/users/${user._id}/${param.mailid}`
       );
-      console.log(result.data);
+
       setMailInfo(result.data);
+      isUnseen();
     } catch (err) {
       alert(err);
     }

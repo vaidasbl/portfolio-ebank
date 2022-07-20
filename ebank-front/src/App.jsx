@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,6 +29,19 @@ import "./styles/App.css";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const [unseen, setUnseen] = useState(false);
+
+  const isUnseen = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:3002/api/bank/users/${user._id}/unseen`
+      );
+
+      setUnseen(result.data);
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const refreshWallet = async () => {
     try {
@@ -52,9 +66,13 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    isUnseen();
+  }, []);
+
   if (user.authenticated) {
     return (
-      <WalletContext.Provider value={{ refreshWallet }}>
+      <WalletContext.Provider value={{ refreshWallet, unseen, isUnseen }}>
         <Router>
           <Routes>
             <Route path="/" element={<DashboardContainer />} />

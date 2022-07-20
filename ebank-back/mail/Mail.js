@@ -9,8 +9,10 @@ const MailSchema = new Schema({
       who: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       subject: String,
       contents: String,
+      purpose: String,
       date: String,
       income: Boolean,
+      seen: Boolean,
     },
   ],
   sent: [
@@ -18,6 +20,7 @@ const MailSchema = new Schema({
       who: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       subject: String,
       contents: String,
+      purpose: String,
       date: String,
       income: Boolean,
     },
