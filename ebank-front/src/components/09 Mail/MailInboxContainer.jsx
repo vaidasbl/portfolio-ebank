@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -31,18 +32,20 @@ const MailInboxContainer = () => {
     <div>
       <DashboardNavbar />
 
-      <MailView>
-        <div className="container">
+      <MailView withContainer={true}>
+        <div className="container gap">
           {inbox.map((m) => (
             <div
               key={m._id}
-              className="row"
+              className={m.seen ? "row mailrow " : "row mailrow unseen"}
               onClick={() => navigate(`/mail/${m._id}`)}
             >
-              <div className="col-3">{m.who}</div>
-              <div className="col-3">{m.subject}</div>
-
-              <div className="col-6">{m.seen ? "true" : "false"}</div>
+              <div className="col-1">
+                {m.seen ? "" : <NavigateNextIcon className="muiIcon" />}
+              </div>
+              <div className="col-3 align-left ">{m.who}</div>
+              <div className="col-5">{m.subject}</div>
+              <div className="col-3">{m.date}</div>
             </div>
           ))}
         </div>

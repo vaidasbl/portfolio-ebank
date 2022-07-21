@@ -31,12 +31,12 @@ const MailSentContainer = () => {
     <div>
       <DashboardNavbar />
 
-      <MailView>
-        <div className="container">
+      <MailView withContainer={true}>
+        <div className="container gap">
           {sent.map((m) => (
             <div
               key={m._id}
-              className="row"
+              className="row mailrow"
               onClick={() => navigate(`/mail/${m._id}`)}
             >
               <div className="col-3">{m.who}</div>

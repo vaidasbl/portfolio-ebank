@@ -18,11 +18,6 @@ const CurrencySelectDropdown = ({ setCurrency }) => {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = (e) => {
-    e.preventDefault();
-    setOpen(!open);
-  };
-
   const handleSetCurrency = (c) => {
     setCurrency(c);
     setOpen(false);
@@ -30,8 +25,8 @@ const CurrencySelectDropdown = ({ setCurrency }) => {
 
   return (
     <div className="container ">
-      <div className="row">
-        <div ref={ref}>
+      <div ref={ref} className="row">
+        <div>
           <div className="inline-block ">
             <button
               type="button"

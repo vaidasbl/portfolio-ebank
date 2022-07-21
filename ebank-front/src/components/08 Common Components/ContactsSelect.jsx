@@ -10,7 +10,6 @@ const ContactsSelect = ({ setContact }) => {
   const [open, setOpen] = useState(false);
 
   const ref = useRef(null);
-  const buttonref = useRef(null);
 
   const closeOpenMenus = (e) => {
     if (ref.current && open && !ref.current.contains(e.target)) {
@@ -62,7 +61,7 @@ const ContactsSelect = ({ setContact }) => {
         <div>
           <div className={open ? "dropdown-open " : "dropdown-closed"}>
             {open &&
-              contacts.map((c) => (
+              contacts?.map((c) => (
                 <div
                   key={c.username}
                   className={"row contactitem"}

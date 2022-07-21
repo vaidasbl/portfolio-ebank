@@ -40,8 +40,7 @@ const MailNewContainer = () => {
     <div>
       <DashboardNavbar />
 
-      <MailView>
-        {/* recipient and subject */}
+      <MailView withContainer={false}>
         <div>
           <div className="mt-3">
             <input
@@ -63,7 +62,7 @@ const MailNewContainer = () => {
           </div>
           <div className="underlinetext">subject</div>
         </div>
-        {/* text body */}
+
         <div className="container mt-4">
           <textarea
             id="contents"
@@ -71,7 +70,7 @@ const MailNewContainer = () => {
             onChange={handleChange}
           ></textarea>
         </div>
-        {/* send button */}
+
         <div>
           <button className="myBtn11 mt-1" onClick={handleSend}>
             Send

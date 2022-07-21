@@ -21,6 +21,7 @@ const MailPreviewContainer = () => {
       );
 
       setMailInfo(result.data);
+      console.log(result.data);
       isUnseen();
     } catch (err) {
       alert(err);
@@ -36,9 +37,25 @@ const MailPreviewContainer = () => {
       <DashboardNavbar />
 
       <MailView>
-        <div>PREVIEW</div>
-        <div>{mailInfo.who}</div>
-        <div>{mailInfo.subject}</div>
+        <div className="row">
+          <div className="col-6 align-right">
+            <div>{mailInfo.income ? "from:" : "to:"} </div>
+            <div>subject: </div>
+          </div>
+          <div className="col-6 align-left">
+            <div>{mailInfo.who}</div>
+            <div>{mailInfo.subject} </div>
+          </div>
+        </div>
+
+        <hr className="hrhr1" />
+        <div>
+          <textarea
+            value={mailInfo.contents}
+            className="mailbody2"
+            readOnly="true"
+          ></textarea>
+        </div>
       </MailView>
     </div>
   );

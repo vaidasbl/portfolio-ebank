@@ -21,7 +21,7 @@ const DashboardNavbar = () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-3 navoption" onClick={() => navigate("/")}>
-            Home {unseen ? "unseen" : "all seen"}
+            Home
           </div>
           <div
             className="col-sm-3 navoption"

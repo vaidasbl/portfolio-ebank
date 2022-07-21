@@ -311,7 +311,7 @@ button:disabled {
 
   width: 500px;
   margin-top: 10vh;
-  height: 500px;
+  height: 550px;
   background-color: #ffffff;
   /* align-items: center;
   justify-content: center; */
@@ -583,6 +583,15 @@ button:disabled {
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
+.mailbody2 {
+  width: 400px;
+  height: 200px;
+  resize: none;
+  outline: none;
+  border: none;
+  cursor: default;
+}
+
 textarea {
   padding: 10px;
 }
@@ -594,4 +603,39 @@ textarea {
 
 .muiIcon:hover {
   color: rgb(252, 176, 35);
+}
+
+.mail-body-container {
+  height: 300px;
+  overflow-y: auto;
+
+  border-radius: 15px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.mailrow:hover {
+  background-color: #fcfcfc;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.seenindicator {
+  position: absolute;
+  width: 15px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.gap {
+  display: grid;
+  gap: 10px;
 }

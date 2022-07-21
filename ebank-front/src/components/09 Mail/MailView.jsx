@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
-function MailView({ children }) {
+function MailView({ children, withContainer }) {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   return (
@@ -44,7 +44,23 @@ function MailView({ children }) {
             </button>
           </div>
         </div>
-        <div className={"body-container mt-4 "}>{children}</div>
+        <div className={withContainer ? "mt-4 mail-body-container" : "mt-4"}>
+          {children}
+        </div>
+
+        <div>
+          <div className="row mt-3">
+            <div className="col-6 align-left">
+              <button
+                type="button"
+                className="myBtn4"
+                onClick={() => navigate(-1)}
+              >
+                Go back
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
