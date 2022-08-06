@@ -13,6 +13,7 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateWallet } from "../../Reducers/user";
+import apiEndpoint from "../../endpoint";
 
 const CurrencySelect = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const CurrencySelect = () => {
     if (currency !== "") {
       try {
         const result = await axios.put(
-          "http://localhost:3002/api/bank/users/changecurrency",
+          `${apiEndpoint}/api/bank/users/changecurrency`,
           request
         );
 

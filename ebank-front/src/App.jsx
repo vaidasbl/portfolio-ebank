@@ -21,6 +21,7 @@ import MailInboxContainer from "./components/09 Mail/MailInboxContainer";
 import MailNewContainer from "./components/09 Mail/MailNewContainer";
 import MailPreviewContainer from "./components/09 Mail/MailPreviewContainer";
 import MailSentContainer from "./components/09 Mail/MailSentContainer";
+import apiEndpoint from "./endpoint";
 import { updateWallet } from "./Reducers/user";
 import WalletContext from "./Reducers/WalletContext";
 
@@ -34,7 +35,7 @@ function App() {
   const isUnseen = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/unseen`
+        `${apiEndpoint}/api/bank/users/${user._id}/unseen`
       );
 
       setUnseen(result.data);
@@ -46,7 +47,7 @@ function App() {
   const refreshWallet = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/getwallet/${user.username}`
+        `${apiEndpoint}/api/bank/users/getwallet/${user.username}`
       );
       dispatch(updateWallet({ wallet: result.data }));
     } catch (err) {
@@ -57,7 +58,7 @@ function App() {
   const refreshUserInfo = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/getwallet/${user.username}`
+        `${apiEndpoint}/api/bank/users/getwallet/${user.username}`
       );
       dispatch(updateWallet({ wallet: result.data }));
       console.log("UPDATED>>>>>>", result);
@@ -66,9 +67,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    isUnseen();
-  }, []);
+  useEffect(() => {}, []);
 
   if (user.authenticated) {
     return (

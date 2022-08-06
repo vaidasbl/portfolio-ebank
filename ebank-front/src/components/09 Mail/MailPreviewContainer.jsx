@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import apiEndpoint from "../../endpoint";
 import WalletContext from "../../Reducers/WalletContext";
 
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
@@ -17,7 +18,7 @@ const MailPreviewContainer = () => {
   const getPreview = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/${param.mailid}`
+        `${apiEndpoint}/api/bank/users/${user._id}/${param.mailid}`
       );
 
       setMailInfo(result.data);
@@ -53,7 +54,7 @@ const MailPreviewContainer = () => {
           <textarea
             value={mailInfo.contents}
             className="mailbody2"
-            readOnly="true"
+            readOnly={true}
           ></textarea>
         </div>
       </MailView>

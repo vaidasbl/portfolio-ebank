@@ -45,7 +45,7 @@ router.post("/new", async (req, res) => {
       email: "",
       wallet: {
         currency: "USD",
-        amount: 0,
+        amount: 100,
       },
       transactionsId: null,
       contactsId: null,

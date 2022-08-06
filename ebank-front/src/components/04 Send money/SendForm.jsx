@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import apiEndpoint from "../../endpoint";
 import WalletContext from "../../Reducers/WalletContext";
 import ContactsSelect from "../08 Common Components/ContactsSelect";
 import CurrencySelectDropdown from "../08 Common Components/CurrencySelectDropdown";
@@ -36,7 +37,7 @@ const SendForm = () => {
     if (!empty) {
       try {
         const result = await axios.put(
-          "http://localhost:3002/api/bank/users/send",
+          `${apiEndpoint}/api/bank/users/send`,
           request
         );
         refreshWallet();

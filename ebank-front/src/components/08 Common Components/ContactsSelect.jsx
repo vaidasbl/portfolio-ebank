@@ -3,6 +3,7 @@ import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import apiEndpoint from "../../endpoint";
 
 const ContactsSelect = ({ setContact }) => {
   const user = useSelector((state) => state.user.value);
@@ -21,7 +22,7 @@ const ContactsSelect = ({ setContact }) => {
   const getContacts = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/contacts`
+        `${apiEndpoint}/api/bank/users/${user._id}/contacts`
       );
       setContacts(result.data);
     } catch (err) {

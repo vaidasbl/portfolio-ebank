@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import apiEndpoint from "../../endpoint";
 import { login } from "../../Reducers/user";
 
 const LoginForm = () => {
@@ -14,7 +15,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "http://localhost:3002/api/bank/users/login",
+        `${apiEndpoint}/api/bank/users/login`,
         user
       );
       if (result.data.success) {
@@ -46,7 +47,7 @@ const LoginForm = () => {
   return (
     <div>
       <h6 className="title">Login</h6>
-      
+
       <form onSubmit={handleSubmit}>
         <div className="mt-4">
           <input
@@ -70,21 +71,21 @@ const LoginForm = () => {
           />
         </div>
         <div className="mt-40">
-        <div className="row ">
-          <div className="col-6">
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="myBtn4"
-            >
-              Back
-            </button>
-          </div>
-          <div className="col-6">
-            <button disabled={empty} type="submit" className="myBtn4">
-              Proceed
-            </button>
-          </div>
+          <div className="row ">
+            <div className="col-6">
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="myBtn4"
+              >
+                Back
+              </button>
+            </div>
+            <div className="col-6">
+              <button disabled={empty} type="submit" className="myBtn4">
+                Proceed
+              </button>
+            </div>
           </div>
         </div>
       </form>

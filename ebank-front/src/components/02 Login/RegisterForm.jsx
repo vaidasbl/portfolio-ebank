@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import apiEndpoint from "../../endpoint";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3002/api/bank/users/new", info);
+      await axios.post(`${apiEndpoint}/api/bank/users/new`, info);
 
       alert("Succesfully created an account");
       navigate("/");

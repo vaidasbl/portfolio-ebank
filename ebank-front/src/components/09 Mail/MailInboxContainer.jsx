@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
 
 import MailView from "./MailView";
+import apiEndpoint from "../../endpoint";
 
 const MailInboxContainer = () => {
   const user = useSelector((state) => state.user.value);
@@ -16,7 +17,7 @@ const MailInboxContainer = () => {
   const getInbox = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/inbox`
+        `${apiEndpoint}/api/bank/users/${user._id}/inbox`
       );
 
       setInbox(result.data);

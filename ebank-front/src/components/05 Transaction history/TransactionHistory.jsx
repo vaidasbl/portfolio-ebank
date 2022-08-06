@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import apiEndpoint from "../../endpoint";
 import DashboardView from "../08 Common Components/DashboardView";
 import Pagination from "../08 Common Components/Pagination";
 
@@ -19,7 +20,7 @@ const TransactionHistory = () => {
   const getTransactionsPage = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/transactionspage=${page}/size=${pageSize}`
+        `${apiEndpoint}/api/bank/users/${user._id}/transactionspage=${page}/size=${pageSize}`
       );
 
       setTransactions(result.data.page);

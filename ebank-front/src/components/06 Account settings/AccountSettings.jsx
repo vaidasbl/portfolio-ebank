@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import { updateInfo } from "../../Reducers/user";
 import DashboardView from "../08 Common Components/DashboardView";
+import apiEndpoint from "../../endpoint";
 
 const AccountSettings = () => {
   const user = useSelector((state) => state.user.value);
@@ -32,7 +33,7 @@ const AccountSettings = () => {
   const handleSave = async () => {
     try {
       const result = await axios.put(
-        "http://localhost:3002/api/bank/users/updateinfo",
+        `${apiEndpoint}/api/bank/users/updateinfo`,
         newInfo
       );
       console.log(result.data);

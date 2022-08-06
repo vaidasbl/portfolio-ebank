@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import apiEndpoint from "../../endpoint";
 
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
 
@@ -15,7 +16,7 @@ const MailSentContainer = () => {
   const getSent = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/sent`
+        `${apiEndpoint}/api/bank/users/${user._id}/sent`
       );
       setSent(result.data);
     } catch (err) {

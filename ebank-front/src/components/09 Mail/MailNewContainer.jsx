@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import apiEndpoint from "../../endpoint";
 
 import DashboardNavbar from "../03 Dashboard/DashboardNavbar";
 
@@ -27,7 +28,7 @@ const MailNewContainer = () => {
   const handleSend = async () => {
     try {
       const result = await axios.put(
-        "http://localhost:3002/api/bank/users/sendmail",
+        `${apiEndpoint}/api/bank/users/sendmail`,
         mail
       );
       console.log(mail);

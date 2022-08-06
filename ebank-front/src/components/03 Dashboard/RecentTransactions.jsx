@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import apiEndpoint from "../../endpoint";
 
 const RecentTransactions = () => {
   const user = useSelector((state) => state.user.value);
@@ -9,7 +10,7 @@ const RecentTransactions = () => {
   const getTransactions = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3002/api/bank/users/${user._id}/recenttransactions`
+        `${apiEndpoint}/api/bank/users/${user._id}/recenttransactions`
       );
 
       setTransactions(result.data);
